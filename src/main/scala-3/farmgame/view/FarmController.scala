@@ -23,14 +23,17 @@ class FarmController:
   private var cropMenu: javafx.scene.control.MenuButton = _
 
   @FXML
+  private var villagerMenu: javafx.scene.control.MenuButton = _
+
+  @FXML
   private var farm: farmgame.model.Farm = _
 
   @FXML
-  def setFarm(f: Farm): Unit = {
+  def setFarm(f: Farm): Unit =
     farm = f
     setupCropMenu()
+    setupVillagerMenu()
     renderFarm()
-  }
 
   @FXML def handleNextTurn(event: ActionEvent): Unit =
     farm.nextTurn()
@@ -48,6 +51,20 @@ class FarmController:
       })
       cropMenu.getItems.add(item)
     cropMenu.setText("Select Crop")
+
+  @FXML
+  def setupVillagerMenu(): Unit =
+    val villagers = farm.people.map(_.name)
+
+    villagerMenu.getItems.clear()
+    for name <- villagers do
+      val item = new MenuItem(name)
+      item.setOnAction(_ => {
+        villagerMenu.setText(name)
+        println(s"Selected villager: $name")
+      })
+      villagerMenu.getItems.add(item)
+    villagerMenu.setText("Select Villager")
 
   @FXML
   def renderFarm(): Unit =
@@ -93,7 +110,10 @@ class FarmController:
         case _ => println("No crop selected")
     else if plot.isReady then
       val harvested = farm.harvestAt(row, col)
-      harvested.foreach(crop => farm.feedVillager(0, crop))
+      villagerMenu.getText match
+        case "Alice" => harvested.foreach(crop => farm.feedVillager(0, crop))
+        case "Bob" => harvested.foreach(crop => farm.feedVillager(1, crop))
+        case _ => println("No villager selected")
 
     renderFarm()
 
