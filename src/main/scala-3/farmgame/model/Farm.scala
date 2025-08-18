@@ -7,12 +7,14 @@ class Farm(rows: Int, cols: Int, villagers: List[Villager]):
 
   //villagers
   var people: List[Villager] = villagers
+  
+  def numRows: Int = rows
+  def numCols: Int = cols
 
   def nextTurn(): Unit =
     //grow all crops
     for row <- plots; plot <- row do
       plot.grow()
-
     //apply variety penalty
     for v <- people do
       v.applyVarietyPenalty()

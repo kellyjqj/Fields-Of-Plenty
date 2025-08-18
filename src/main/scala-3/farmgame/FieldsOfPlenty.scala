@@ -61,31 +61,6 @@ object FieldsOfPlenty extends JFXApp3:
   def createDefaultFarm(): Farm =
     Farm(3, 3, List(Villager("Alice"), Villager("Bob")))
 
-
-  def showCropSelection(ownerStage: Stage): Option[String] =
-    println("Opening crop selection dialog...")
-    val cropSelection: URL = getClass.getResource("/farmgame/view/CropSelection.fxml")
-    println(s"CropSelection.fxml found at: $cropSelection")
-    val loader = new FXMLLoader(cropSelection)
-    loader.load()
-    val pane = loader.getRoot[javafx.scene.layout.AnchorPane]()
-    val myWindow = new Stage():
-      initOwner(ownerStage)
-      initModality(ApplicationModal)
-      title = "Crop Selection"
-      scene = new Scene():
-        root = pane
-    val ctrl = loader.getController[CropSelectionController]()
-    ctrl.stage = Some(myWindow)
-    myWindow.showAndWait()
-    showFarm()
-
-    if ctrl.okClicked then
-      ctrl.selectedCrop
-    else
-      None
-
-
   //popup dialog
   def showAbout(): Boolean =
     val about = getClass.getResource("/farmgame/view/About.fxml")

@@ -3,11 +3,8 @@ package farmgame.view
 import farmgame.FieldsOfPlenty
 import farmgame.model.*
 import javafx.event.ActionEvent
-import javafx.fxml.FXML
-import javafx.scene.layout.GridPane
-import javafx.scene.control.{Button, Label, MenuButton, MenuItem}
-import scalafx.event
-import scalafx.stage.Stage
+import javafx.fxml.{FXML, FXMLLoader}
+import javafx.scene.control.MenuItem
 
 
 @FXML
@@ -18,103 +15,86 @@ class FarmController:
   private var villager2Label: javafx.scene.control.Label = _
   @FXML
   private var nextTurnButton: javafx.scene.control.Button = _
+  @FXML
+    //should be empty in fxml
+  private var farmGrid: javafx.scene.layout.GridPane = _
 
   @FXML
-  private var plot00: javafx.scene.control.Button = _
-  @FXML
-  private var plot01: javafx.scene.control.Button = _
-  @FXML
-  private var plot02: javafx.scene.control.Button = _
-  @FXML
-  private var plot10: javafx.scene.control.Button = _
-  @FXML
-  private var plot11: javafx.scene.control.Button = _
-  @FXML
-  private var plot12: javafx.scene.control.Button = _
-  @FXML
-  private var plot20: javafx.scene.control.Button = _
-  @FXML
-  private var plot21: javafx.scene.control.Button = _
-  @FXML
-  private var plot22: javafx.scene.control.Button = _
+  private var cropMenu: javafx.scene.control.MenuButton = _
 
   @FXML
   private var farm: farmgame.model.Farm = _
 
   @FXML
-  def setFarm(f: Farm): Unit =
+  def setFarm(f: Farm): Unit = {
     farm = f
+    setupCropMenu()
+    renderFarm()
+  }
+
+  @FXML def handleNextTurn(event: ActionEvent): Unit =
+    farm.nextTurn()
     renderFarm()
 
-  @FXML def initialize(): Unit =
-    nextTurnButton.setOnAction(_ => {
-      farm.nextTurn()
-      renderFarm()
-    })
+  @FXML
+  def setupCropMenu(): Unit =
+    val crops = List("Rice", "Soy","Potato", "Tomato", "Orange")
+    cropMenu.getItems.clear()
+    for crop <- crops do
+      val item = new MenuItem(crop)
+      item.setOnAction(_ => {
+        cropMenu.setText(crop)
+        println(s"Selected crop: $crop")
+      })
+      cropMenu.getItems.add(item)
+    cropMenu.setText("Select Crop")
 
   @FXML
-  def handlePlotAction(action: ActionEvent): Unit =
-    val btn = action.getSource.asInstanceOf[javafx.scene.control.Button]
-    println(s"Button pressed: ${btn.getId}")
-    btn.getId match
-      case "plot00" => handlePlot(0, 0)
-      case "plot01" => handlePlot(0, 1)
-      case "plot02" => handlePlot(0, 2)
-      case "plot10" => handlePlot(1, 0)
-      case "plot11" => handlePlot(1, 1)
-      case "plot12" => handlePlot(1, 2)
-      case "plot20" => handlePlot(2, 0)
-      case "plot21" => handlePlot(2, 1)
-      case "plot22" => handlePlot(2, 2)
+  def renderFarm(): Unit =
+    println("Rendering farm...")
+    farmGrid.getChildren.clear()
+
+    //update villagers
+    villager1Label.setText(s"${farm.people(0).name}: ${farm.people(0).nutritionLevel}")
+    villager2Label.setText(s"${farm.people(1).name}: ${farm.people(1).nutritionLevel}")
+
+    //create buttons in grid
+    for row <- 0 until farm.numRows do
+      for col <- 0 until farm.numCols do
+        val plot = farm.plots(row)(col)
+        val btn = new javafx.scene.control.Button()
+
+        if plot.isEmpty then
+          btn.setText("Plant")
+          btn.setDisable(false)
+          btn.setOnAction(_ => handlePlot(row, col))
+        else if plot.isReady then
+          btn.setText(s"Harvest ${plot.getCropName}")
+          btn.setDisable(false)
+          btn.setOnAction(_ => handlePlot(row, col))
+        else
+          btn.setText(s"${plot.getCropName} (${plot.progress}/${plot.growthTime})")
+          btn.setDisable(true)
+
+        btn.setPrefSize(100, 50)
+        farmGrid.add(btn, col, row)
 
   @FXML
-  private def handlePlot(row: Int, col: Int): Unit =
+  def handlePlot(row: Int, col: Int): Unit =
     val plot = farm.plots(row)(col)
+
     if plot.isEmpty then
-      println("Showing crop selection popup...")
-      val ownerStage = nextTurnButton.getScene.getWindow.asInstanceOf[Stage]
-      println("Calling showCropSelection")
-      val selectedCrop = FieldsOfPlenty.showCropSelection(ownerStage)
-      println(s"Crop selected: $selectedCrop")
-      selectedCrop.foreach {
+      cropMenu.getText match
         case "Rice" => farm.plantAt(row, col, new Rice)
         case "Soy" => farm.plantAt(row, col, new Soy)
         case "Potato" => farm.plantAt(row, col, new Potato)
         case "Tomato" => farm.plantAt(row, col, new Tomato)
         case "Orange" => farm.plantAt(row, col, new Orange)
-        case _ =>
-      }
-      renderFarm()
-
+        case _ => println("No crop selected")
     else if plot.isReady then
       val harvested = farm.harvestAt(row, col)
-      harvested.foreach(crop => farm.feedVillager(0, crop)) // villager selection later
-      renderFarm()
-  @FXML
-  private def renderFarm(): Unit =
-    // update villagers
-    villager1Label.setText(s"${farm.people(0).name}: ${farm.people(0).nutritionLevel}")
-    villager2Label.setText(s"${farm.people(1).name}: ${farm.people(1).nutritionLevel}")
+      harvested.foreach(crop => farm.feedVillager(0, crop))
 
-    // update buttons based on plot state
-    updateButton(plot00, farm.plots(0)(0))
-    updateButton(plot01, farm.plots(0)(1))
-    updateButton(plot02, farm.plots(0)(2))
-    updateButton(plot10, farm.plots(1)(0))
-    updateButton(plot11, farm.plots(1)(1))
-    updateButton(plot12, farm.plots(1)(2))
-    updateButton(plot20, farm.plots(2)(0))
-    updateButton(plot21, farm.plots(2)(1))
-    updateButton(plot22, farm.plots(2)(2))
+    renderFarm()
 
-  @FXML
-  private def updateButton(btn: Button, plot: FarmPlot): Unit =
-    if plot.isEmpty then
-      btn.setText("Plant")
-      btn.setDisable(false)
-    else if plot.isReady then
-      btn.setText(s"Harvest ${plot.getCropName}")
-      btn.setDisable(false)
-    else
-      btn.setText(s"${plot.getCropName} (${plot.progress}/${plot.growthTime})")
-      btn.setDisable(true)
+
