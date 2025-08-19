@@ -13,17 +13,17 @@ class FarmController:
   @FXML
   private var villager2Label: javafx.scene.control.Label = _
   @FXML
+  private var villager1Bar: javafx.scene.control.ProgressBar = _
+  @FXML
+  private var villager2Bar: javafx.scene.control.ProgressBar = _
+  @FXML
   private var nextTurnButton: javafx.scene.control.Button = _
   @FXML
-    //should be empty in fxml
   private var farmGrid: javafx.scene.layout.GridPane = _
-
   @FXML
   private var cropMenu: javafx.scene.control.MenuButton = _
-
   @FXML
   private var villagerMenu: javafx.scene.control.MenuButton = _
-
   @FXML
   private var farm: farmgame.model.Farm = _
 
@@ -72,8 +72,14 @@ class FarmController:
     farmGrid.getChildren.clear()
 
     //update villagers
-    villager1Label.setText(s"${farm.people(0).name}: ${farm.people(0).nutritionLevel}")
-    villager2Label.setText(s"${farm.people(1).name}: ${farm.people(1).nutritionLevel}")
+    val v1 = farm.people(0)
+    val v2 = farm.people(1)
+
+    villager1Label.setText(s"${v1.name}: ${v1.nutritionLevel}")
+    villager2Label.setText(s"${v2.name}: ${v2.nutritionLevel}")
+
+    villager1Bar.setProgress(v1.nutritionLevel / 100.0)
+    villager2Bar.setProgress(v2.nutritionLevel / 100.0)
 
     //create buttons in grid
     for row <- 0 until farm.numRows do
