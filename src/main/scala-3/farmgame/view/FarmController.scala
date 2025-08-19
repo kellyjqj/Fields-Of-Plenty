@@ -1,9 +1,8 @@
 package farmgame.view
 
-import farmgame.FieldsOfPlenty
 import farmgame.model.*
 import javafx.event.ActionEvent
-import javafx.fxml.{FXML, FXMLLoader}
+import javafx.fxml.FXML
 import javafx.scene.control.MenuItem
 
 
@@ -37,6 +36,7 @@ class FarmController:
 
   @FXML def handleNextTurn(event: ActionEvent): Unit =
     farm.nextTurn()
+    farm.people.foreach(_.nextTurn())
     renderFarm()
 
   @FXML
@@ -90,10 +90,11 @@ class FarmController:
           btn.setDisable(false)
           btn.setOnAction(_ => handlePlot(row, col))
         else
-          btn.setText(s"${plot.getCropName} (${plot.progress}/${plot.growthTime})")
+          btn.setText(s"${plot.getCropName}")
+          //(${plot.progress}/${plot.growthTime}
           btn.setDisable(true)
 
-        btn.setPrefSize(100, 50)
+        btn.setPrefSize(150, 50)
         farmGrid.add(btn, col, row)
 
   @FXML
@@ -108,12 +109,24 @@ class FarmController:
         case "Tomato" => farm.plantAt(row, col, new Tomato)
         case "Orange" => farm.plantAt(row, col, new Orange)
         case _ => println("No crop selected")
+//    else if plot.isReady then
+//      val harvested = farm.harvestAt(row, col)
+//      villagerMenu.getText match
+//        case "Alice" => harvested.foreach(crop => farm.feedVillager(0, crop))
+//        case "Bob" => harvested.foreach(crop => farm.feedVillager(1, crop))
+//        case _ => println("No villager selected")
+
     else if plot.isReady then
-      val harvested = farm.harvestAt(row, col)
-      villagerMenu.getText match
-        case "Alice" => harvested.foreach(crop => farm.feedVillager(0, crop))
-        case "Bob" => harvested.foreach(crop => farm.feedVillager(1, crop))
-        case _ => println("No villager selected")
+      val selected = villagerMenu.getText
+      if selected == "Select Villager" then
+        println("⚠ Please select a villager before harvesting!")
+        return
+      else
+        val harvested = farm.harvestAt(row, col)
+        harvested.foreach { crop =>
+          val index = farm.people.indexWhere(_.name == selected)
+          if index >= 0 then farm.feedVillager(index, crop)
+        }
 
     renderFarm()
 

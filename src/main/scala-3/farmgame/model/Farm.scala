@@ -15,9 +15,6 @@ class Farm(rows: Int, cols: Int, villagers: List[Villager]):
     //grow all crops
     for row <- plots; plot <- row do
       plot.grow()
-    //apply variety penalty
-    for v <- people do
-      v.applyVarietyPenalty()
 
   def plantAt(row: Int, col: Int, crop: Crop): Boolean =
     plots(row)(col).plant(crop)
