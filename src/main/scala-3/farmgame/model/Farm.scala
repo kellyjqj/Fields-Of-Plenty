@@ -7,14 +7,18 @@ class Farm(rows: Int, cols: Int, villagers: List[Villager]):
 
   //villagers
   var people: List[Villager] = villagers
+  var daysSurvived: Int = 0
   
   def numRows: Int = rows
   def numCols: Int = cols
 
-  def nextTurn(): Unit =
+  def nextDay(): Unit =
     //grow all crops
     for row <- plots; plot <- row do
       plot.grow()
+    // increment score if at least one villager is alive
+    if people.exists(_.isAlive) then
+      daysSurvived += 1
 
   def plantAt(row: Int, col: Int, crop: Crop): Boolean =
     plots(row)(col).plant(crop)

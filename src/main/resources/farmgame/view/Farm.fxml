@@ -11,51 +11,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmgame.view.FarmController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="600.0">
-         <top>
-            <GridPane BorderPane.alignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="80.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="211.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="329.0" minWidth="10.0" prefWidth="91.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="329.0" minWidth="10.0" prefWidth="208.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label fx:id="villager1Label" text="Villager 1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </Label>
-                  <ProgressBar fx:id="villager1Bar" prefWidth="203.0" progress="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                     </padding>
-                  </ProgressBar>
-                  <ProgressBar fx:id="villager2Bar" prefHeight="28.0" prefWidth="219.0" progress="0.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                     </padding>
-                  </ProgressBar>
-                  <Label fx:id="villager2Label" text="Villager 2" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </Label>
-               </children>
-               <BorderPane.margin>
-                  <Insets left="10.0" right="10.0" top="15.0" />
-               </BorderPane.margin>
-            </GridPane>
-         </top>
+      <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.topAnchor="0.0">
          <center>
-            <GridPane fx:id="farmGrid" BorderPane.alignment="CENTER">
+            <GridPane fx:id="farmGrid" prefHeight="201.0" prefWidth="500.0" BorderPane.alignment="CENTER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -74,7 +37,8 @@
          <bottom>
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <buttons>
-                <Button fx:id="nextTurnButton" mnemonicParsing="false" onAction="#handleNextTurn" text="Next Turn" />
+                  <Label fx:id="daysSurvivedLabel" text="Days Survived: 0" />
+                <Button fx:id="nextDayButton" mnemonicParsing="false" onAction="#handleNextDay" text="Next Day" />
                   <MenuButton fx:id="cropMenu" mnemonicParsing="false" text="Plant Crops">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -96,6 +60,35 @@
                </BorderPane.margin>
             </ButtonBar>
          </bottom>
+         <top>
+            <HBox prefHeight="40.0" prefWidth="570.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="villager1Label" text="Villager 1" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <ProgressBar fx:id="villager1Bar" prefWidth="200.0" progress="0.0" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </ProgressBar>
+                  <Label fx:id="villager2Label" text="Villager 2" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <ProgressBar fx:id="villager2Bar" prefWidth="200.0" progress="0.0" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </ProgressBar>
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </BorderPane.margin>
+            </HBox>
+         </top>
       </BorderPane>
    </children>
 </AnchorPane>

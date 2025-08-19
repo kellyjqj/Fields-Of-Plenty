@@ -4,6 +4,10 @@ import farmgame.model.*
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.MenuItem
+import scalafx.scene.Scene
+import scalafx.stage.Modality.ApplicationModal
+import scalafx.stage.Stage
+import scalafx.Includes.*
 
 
 @FXML
@@ -17,7 +21,7 @@ class FarmController:
   @FXML
   private var villager2Bar: javafx.scene.control.ProgressBar = _
   @FXML
-  private var nextTurnButton: javafx.scene.control.Button = _
+  private var nextDayButton: javafx.scene.control.Button = _
   @FXML
   private var farmGrid: javafx.scene.layout.GridPane = _
   @FXML
@@ -26,6 +30,9 @@ class FarmController:
   private var villagerMenu: javafx.scene.control.MenuButton = _
   @FXML
   private var farm: farmgame.model.Farm = _
+  @FXML
+  private var daysSurvivedLabel: javafx.scene.control.Label = _
+
 
   @FXML
   def setFarm(f: Farm): Unit =
@@ -34,10 +41,12 @@ class FarmController:
     setupVillagerMenu()
     renderFarm()
 
-  @FXML def handleNextTurn(event: ActionEvent): Unit =
-    farm.nextTurn()
-    farm.people.foreach(_.nextTurn())
+  @FXML def handleNextDay(event: ActionEvent): Unit =
+    farm.nextDay()
+    farm.people.foreach(_.nextDay())
     renderFarm()
+    setupVillagerMenu()
+    checkGameOver()
 
   @FXML
   def setupCropMenu(): Unit =
@@ -57,15 +66,28 @@ class FarmController:
     val villagers = farm.people.map(_.name)
 
     villagerMenu.getItems.clear()
-    for name <- villagers do
-      val item = new MenuItem(name)
+    val aliveVillagers = farm.people.filter(_.isAlive)
+    for v <- aliveVillagers do
+      val item = new MenuItem(v.name)
       item.setOnAction(_ => {
-        villagerMenu.setText(name)
-        println(s"Selected villager: $name")
+        villagerMenu.setText(v.name)
+        println(s"Selected villager: ${v.name}")
       })
       villagerMenu.getItems.add(item)
-    villagerMenu.setText("Select Villager")
 
+    if aliveVillagers.isEmpty then
+      villagerMenu.setText("No villagers alive")
+    else
+      villagerMenu.setText("Select Villager")
+//    for name <- villagers do
+//      val item = new MenuItem(name)
+//      item.setOnAction(_ => {
+//        villagerMenu.setText(name)
+//        println(s"Selected villager: $name")
+//      })
+//      villagerMenu.getItems.add(item)
+//    villagerMenu.setText("Select Villager")
+//
   @FXML
   def renderFarm(): Unit =
     println("Rendering farm...")
@@ -75,11 +97,22 @@ class FarmController:
     val v1 = farm.people(0)
     val v2 = farm.people(1)
 
-    villager1Label.setText(s"${v1.name}: ${v1.nutritionLevel}")
-    villager2Label.setText(s"${v2.name}: ${v2.nutritionLevel}")
+    villager1Label.setText(
+      if v1.isAlive then
+        s"${v1.name}: ${v1.nutritionLevel}"
+      else s"${v1.name}: DEAD")
+    villager2Label.setText(
+      if v2.isAlive then
+        s"${v2.name}: ${v2.nutritionLevel}"
+      else s"${v2.name}: DEAD")
 
-    villager1Bar.setProgress(v1.nutritionLevel / 100.0)
-    villager2Bar.setProgress(v2.nutritionLevel / 100.0)
+    updateProgressBar(villager1Bar, v1.nutritionLevel, v1.isAlive)
+    updateProgressBar(villager2Bar, v2.nutritionLevel, v2.isAlive)
+
+    daysSurvivedLabel.setText(s"Days Survived: ${farm.daysSurvived}")
+
+//    villager1Bar.setProgress(v1.nutritionLevel / 100.0)
+//    villager2Bar.setProgress(v2.nutritionLevel / 100.0)
 
     //create buttons in grid
     for row <- 0 until farm.numRows do
@@ -121,19 +154,60 @@ class FarmController:
 //        case "Alice" => harvested.foreach(crop => farm.feedVillager(0, crop))
 //        case "Bob" => harvested.foreach(crop => farm.feedVillager(1, crop))
 //        case _ => println("No villager selected")
-
     else if plot.isReady then
       val selected = villagerMenu.getText
-      if selected == "Select Villager" then
-        println("⚠ Please select a villager before harvesting!")
+      if selected == "Select Villager" || selected == "No villagers alive" then
+        println("⚠ Please select a living villager before harvesting!")
         return
       else
+        val index = farm.people.indexWhere(_.name == selected)
+        if index < 0 then
+          println(s"⚠ Villager $selected not found!")
+          return
+        val villager = farm.people(index)
+        if !villager.isAlive then
+          println(s"⚠ Cannot feed dead villager ${villager.name}!")
+          return
         val harvested = farm.harvestAt(row, col)
         harvested.foreach { crop =>
-          val index = farm.people.indexWhere(_.name == selected)
-          if index >= 0 then farm.feedVillager(index, crop)
+          farm.feedVillager(index, crop)
         }
+//    else if plot.isReady then
+//      val selected = villagerMenu.getText
+//      if selected == "Select Villager" || selected == "No villagers alive" then
+//        println("⚠ Please select a living villager before harvesting!")
+//        return
+//      else
+//        val harvested = farm.harvestAt(row, col)
+//        harvested.foreach { crop =>
+//          val index = farm.people.indexWhere(_.name == selected)
+//          if index >= 0 then farm.feedVillager(index, crop)
+//        }
 
     renderFarm()
 
+  private def updateProgressBar(bar: javafx.scene.control.ProgressBar, nutrition: Int, alive: Boolean): Unit =
+    val fraction = nutrition / 100.0
+    bar.setProgress(fraction)
+
+    // clear old classes
+    bar.getStyleClass.removeAll("nutrition-dead", "nutrition-low", "nutrition-medium", "nutrition-high")
+
+    // add new class depending on state
+    if !alive then
+      bar.getStyleClass.add("nutrition-dead")
+    else if nutrition < 30 then
+      bar.getStyleClass.add("nutrition-low")
+    else if nutrition < 60 then
+      bar.getStyleClass.add("nutrition-medium")
+    else
+      bar.getStyleClass.add("nutrition-high")
+
+
+  private def checkGameOver(): Unit =
+    if farm.people.forall(!_.isAlive) then {
+      println(s"DEBUG: Game Over at day ${farm.daysSurvived}")
+      val days = farm.daysSurvived
+      farmgame.FieldsOfPlenty.showGameOver(days)
+    }
 

@@ -19,13 +19,13 @@ abstract class Crop(val name: String, val growthTime: Int, val category: Nutriti
     else None
 
 
-class Rice extends Crop("Rice", 1, NutritionCategory.Carb, 4)
+class Rice extends Crop("Rice", 1, NutritionCategory.Carb, 2)
 
-class Soy extends Crop ("Soy", 4, NutritionCategory.Protein, 12)
+class Soy extends Crop ("Soy", 4, NutritionCategory.Protein, 6)
 
-class Potato extends Crop("Potato", 3, NutritionCategory.Carb, 8)
+class Potato extends Crop("Potato", 3, NutritionCategory.Carb, 4)
 
-class Tomato extends Crop("Tomato", 4, NutritionCategory.Mineral, 10)
+class Tomato extends Crop("Tomato", 4, NutritionCategory.Mineral, 5)
 
-class Orange extends Crop("Orange", 5, NutritionCategory.Vitamin, 14)
+class Orange extends Crop("Orange", 5, NutritionCategory.Vitamin, 7)
 

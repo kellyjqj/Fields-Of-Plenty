@@ -23,6 +23,27 @@
     -fx-background-radius: 0;
 }
 
+/* The empty part of the bar */
+.progress-bar .track {
+    -fx-background-color: #ddd;
+}
+
+/* Nutrition states */
+.nutrition-dead .bar {
+    -fx-background-color: gray;
+}
+
+.nutrition-low .bar {
+    -fx-background-color: red;
+}
+
+.nutrition-medium .bar {
+    -fx-background-color: yellow;
+}
+
+.nutrition-high .bar {
+    -fx-background-color: green;
+}
 /*.button {*/
 /*    -fx-background-color: pink;*/
 /*    -fx-border-color: transparent;*/
