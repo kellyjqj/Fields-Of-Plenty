@@ -90,12 +90,41 @@ object FieldsOfPlenty extends JFXApp3:
     ctrl.stage = Option(myWindow)
     myWindow.showAndWait() //popup
     ctrl.okClicked
-
-
-  //def showCropInfo()
+  
   //def showVillagerInfo()//penalties?
-  //def showHowToPlay()
+  def showHowToPlay(): Boolean = 
+    val howToPlay = getClass.getResource("/farmgame/view/HowToPlay.fxml")
+    val loader = new FXMLLoader(howToPlay)
+    loader.load()
+    val pane = loader.getRoot[javafx.scene.layout.AnchorPane]()
+    val myWindow = new Stage():
+      initOwner(stage)
+      initModality(ApplicationModal)
+      title = "How to Play"
+      scene = new Scene():
+        root = pane
+    val ctrl = loader.getController[HowToPlayController]()
+    ctrl.stage = Option(myWindow)
+    myWindow.showAndWait()
+    ctrl.okClicked
 
+
+  def showCropInfo(): Boolean = 
+    val cropInfo = getClass.getResource("/farmgame/view/CropInfo.fxml")
+    val loader = new FXMLLoader(cropInfo)
+    loader.load()
+    val pane = loader.getRoot[javafx.scene.layout.AnchorPane]()
+    val myWindow = new Stage():
+      initOwner(stage)
+      initModality(ApplicationModal)
+      title = "Crop Info"
+      scene = new Scene():
+        root = pane
+    val ctrl = loader.getController[CropInfoController]()
+    ctrl.stage = Option(myWindow)
+    myWindow.showAndWait()
+    ctrl.okClicked
+    
 
 
 

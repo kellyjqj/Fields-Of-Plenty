@@ -46,12 +46,12 @@
                                 <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                             </accelerator>
                         </MenuItem>
-                  <MenuItem text="How to _Play">
+                  <MenuItem onAction="#handleHowToPlay" text="How to _Play">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem text="Crop _Info">
+                  <MenuItem onAction="#handleCropInfo" text="Crop _Info">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>

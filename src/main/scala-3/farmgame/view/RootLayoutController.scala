@@ -32,3 +32,11 @@ class RootLayoutController():
       farmgame.model.Villager("Alice"), farmgame.model.Villager("Bob")
     ))
     farmgame.FieldsOfPlenty.showFarm(newFarm)
+
+  @FXML
+  def handleHowToPlay(): Unit =
+    FieldsOfPlenty.showHowToPlay()
+
+  @FXML
+  def handleCropInfo(): Unit =
+    FieldsOfPlenty.showCropInfo()
