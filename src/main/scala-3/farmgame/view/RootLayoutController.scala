@@ -11,6 +11,14 @@ class RootLayoutController():
     System.exit(0)
 
   @FXML
+  def handleMainMenu(action: ActionEvent): Unit =
+    FieldsOfPlenty.showMainMenu()
+
+  @FXML
+  def handleRestartGame(action: ActionEvent): Unit =
+    FieldsOfPlenty.showFarm()
+
+  @FXML
   def handleAbout(action: ActionEvent): Unit =
     FieldsOfPlenty.showAbout()
 

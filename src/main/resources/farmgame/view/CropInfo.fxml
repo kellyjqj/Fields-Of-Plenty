@@ -52,6 +52,6 @@
             <Label text="Nutrition Value" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
-      <Button layoutX="418.0" layoutY="304.0" mnemonicParsing="false" onAction="#handleClose" text="Close" />
+      <Button layoutX="418.0" layoutY="304.0" onAction="#handleClose" text="_Close" />
    </children>
 </AnchorPane>

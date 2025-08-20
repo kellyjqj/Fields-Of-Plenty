@@ -5,11 +5,10 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmgame.view.HowToPlayController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmgame.view.HowToPlayController">
    <children>
-      <Label layoutX="27.0" layoutY="28.0" text="How To Play: " />
-      <TextArea layoutX="18.0" layoutY="48.0" prefHeight="255.0" prefWidth="314.0" text="Plant crops by selecting the type of crop you want to plant and click on the plot where you want to plant it&#10;&#10;Once you are ready, continue to the next day by clicking on the next day button&#10;&#10;Once crops are ready for harvest, select a villager to feed and harvest the crop.&#10;&#10;Make sure that the villagers get variety in their diet&#10;&#10;Keep villagers alive and healthy" />
-      <Button layoutX="255.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleClose" text="Close" />
+      <Label layoutX="25.0" layoutY="20.0" text="How To Play: " />
+      <TextArea layoutX="18.0" layoutY="48.0" prefHeight="255.0" prefWidth="465.0" text="1. Plant crops by selecting the type of crop from the crop menu, then click on the plot where you want to plant it.&#10;&#10;2. When you're ready, advance to the next day by clicking the Next Turn button.&#10;&#10;3. Once crops are ready for harvest, select a villager from the villager menu, then click the crop plot to harvest and feed them.&#10;&#10;4. Make sure to provide variety in your villagers’ diet to keep them healthy.&#10;&#10;5. Your goal is to keep all villagers alive and thriving by managing your farm wisely.&#10;&#10;" />
+      <Button layoutX="438.0" layoutY="311.0" onAction="#handleClose" text="_Close" />
    </children>
 </AnchorPane>

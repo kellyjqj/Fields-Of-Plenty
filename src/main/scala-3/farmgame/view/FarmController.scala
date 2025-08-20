@@ -1,5 +1,6 @@
 package farmgame.view
 
+import farmgame.FieldsOfPlenty
 import farmgame.model.*
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -75,15 +76,7 @@ class FarmController:
       villagerMenu.setText("No villagers alive")
     else
       villagerMenu.setText("Select Villager")
-//    for name <- villagers do
-//      val item = new MenuItem(name)
-//      item.setOnAction(_ => {
-//        villagerMenu.setText(name)
-//        println(s"Selected villager: $name")
-//      })
-//      villagerMenu.getItems.add(item)
-//    villagerMenu.setText("Select Villager")
-//
+
   @FXML
   def renderFarm(): Unit =
     println("Rendering farm...")
@@ -106,9 +99,6 @@ class FarmController:
     updateProgressBar(villager2Bar, v2.nutritionLevel, v2.isAlive)
 
     daysSurvivedLabel.setText(s"Days Survived: ${farm.daysSurvived}")
-
-//    villager1Bar.setProgress(v1.nutritionLevel / 100.0)
-//    villager2Bar.setProgress(v2.nutritionLevel / 100.0)
 
     //create buttons in grid
     farmGrid.getColumnConstraints.clear()
@@ -160,6 +150,8 @@ class FarmController:
         case "Tomato" => farm.plantAt(row, col, new Tomato)
         case "Orange" => farm.plantAt(row, col, new Orange)
         case _ => println("No crop selected")
+                  FieldsOfPlenty.showSelectCrop()
+
 //    else if plot.isReady then
 //      val harvested = farm.harvestAt(row, col)
 //      villagerMenu.getText match
@@ -170,6 +162,7 @@ class FarmController:
       val selected = villagerMenu.getText
       if selected == "Select Villager" || selected == "No villagers alive" then
         println("⚠ Please select a living villager before harvesting!")
+        FieldsOfPlenty.showSelectVillager()
         return
       else
         val index = farm.people.indexWhere(_.name == selected)

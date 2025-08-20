@@ -1,6 +1,6 @@
 #mainMenuPane {
     -fx-background-image: url("/farmgame/view/images/farm.jpg");
-    -fx-background-size: cover;
+    -fx-background-size: 100% 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
     -fx-background-image-opacity: 0.5;
@@ -18,15 +18,12 @@
     -fx-padding: 10px;
     -fx-background-color: rgba(255,255,255,0.5);
     -fx-border-color: black;
-    -fx-border-width: 0;
-    -fx-border-radius: 0;
-    -fx-background-radius: 0;
 }
 
 /* The empty part of the bar */
 .progress-bar .track {
     -fx-background-color: transparent;
-    -fx-border-color: gray;
+    -fx-border-color: white;
     -fx-corner-radius: 20;
 }
 /* Nutrition states */
@@ -42,27 +39,114 @@
 .nutrition-high .bar {
     -fx-background-color: green;
 }
-/*.button {*/
-/*    -fx-background-color: pink;*/
-/*    -fx-border-color: transparent;*/
-/*    -fx-border-width: 0;*/
-/*    -fx-border-radius: 0;*/
-/*    -fx-background-radius: 5;*/
-/*}*/
+.button {
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+    -fx-background-radius: 5;
+    -fx-background-image: url("/farmgame/view/images/sign.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px 10px 20px;
+}
 
+.button:hover {
+    -fx-background-image: url("/farmgame/view/images/signhover.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-image-opacity: 0.1;
+}
 
+.button:disabled {
+    -fx-opacity: 0.8;
+}
+
+/*farm design stuff*/
 #farmPane {
-    -fx-background-image:url("/farmgame/view/images/farm.jpg");
-    -fx-background-size: cover;
+    -fx-background-image:url("/farmgame/view/images/grass.png");
+    -fx-background-size: 100% 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
     -fx-background-image-opacity: 0.5;
 }
 
 #hBox{
-    -fx-background-color: rgba(255,255,255,0.8);
+    -fx-background-color: rgba(137, 255, 50, 0.5);
     -fx-border-color: black;
     -fx-border-width: 0;
+    -fx-background-radius: 5px;
+    -fx-font-weight: bold;
+}
+#hBox .label{
+    -fx-text-fill: white;
+}
+
+#farmGrid .button {
+    -fx-background-image: url("/farmgame/view/images/soil.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-image-opacity: 1;
+    -fx-font-color: white;
+    -fx-text-fill: white;
+}
+
+#farmGrid .button:hover {
+    -fx-background-image: url("/farmgame/view/images/soilhover.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-image-opacity: 1;
+}
+
+#daysSurvivedLabel{
+    -fx-font-weight: bold;
+    -fx-text-fill: #3aed3a;
+    -fx-padding: 10px;
+    -fx-background-image: url("/farmgame/view/images/sign.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+
+/*menu button*/
+#farmPane .menu-button {
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 1;
     -fx-border-radius: 0;
-    -fx-background-radius: 0;
+    -fx-background-radius: 5;
+    -fx-background-image: url("/farmgame/view/images/sign.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-text-fill: white;
+    -fx-padding: 10px 0px 10px 0px;
+}
+
+#farmPane .menu-button .label {
+    -fx-text-fill: white;
+}
+
+#farmPane .menu-button:hover {
+    -fx-background-image: url("/farmgame/view/images/signhover.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+
+#farmPane .context-menu {
+    -fx-background-color: rgba(107, 9, 9, 1);
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}
+
+#farmPane .menu-item:focused {
+    -fx-background-color: rgba(180, 50, 50, 0.8); /* highlight on hover/selection */
+    -fx-text-fill: yellow;  /* optional hover color */
 }
