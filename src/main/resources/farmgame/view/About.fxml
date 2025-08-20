@@ -2,16 +2,16 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmgame.view.AboutController">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmgame.view.AboutController">
    <children>
-      <Button layoutX="225.0" layoutY="154.0" mnemonicParsing="false" onAction="#handleClose" text="Close" />
-      <GridPane layoutY="64.0" prefHeight="94.0" prefWidth="300.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+      <Button layoutX="325.0" layoutY="348.0" mnemonicParsing="false" onAction="#handleClose" text="Close" />
+      <GridPane layoutX="30.0" layoutY="14.0" prefHeight="94.0" prefWidth="300.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="15.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="108.0" />
@@ -31,5 +31,6 @@
             <Label text="Kelly" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
+      <TextArea layoutX="16.0" layoutY="128.0" prefHeight="208.0" prefWidth="372.0" text="Fields of Plenty is a farming simulation game that aligns with Sustainable Development Goal 2: Zero Hunger.&#10;Your mission is to keep the villagers in the Field of Plenty healthy and alive by planting crops, managing resources, and making strategic decisions about food production.&#10;&#10;Through gameplay, you’ll learn about the challenges of sustainable agriculture, nutrition, and the importance of making thoughtful choices in the face of scarcity.&#10;&#10;By playing this game, you'll gain a better understanding of:&#10;&#10;- The importance of food security and sustainable farming&#10;&#10;- How crop diversity affects community health&#10;&#10;- The delicate balance between survival and sustainability&#10;&#10;Whether you're harvesting rice, planting potatoes, or trying to keep your villagers from starving, Fields of Plenty encourages you to think critically about real-world issues related to hunger and agriculture.&#10;&#10;" />
    </children>
 </AnchorPane>

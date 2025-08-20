@@ -4,10 +4,6 @@ import farmgame.model.*
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.MenuItem
-import scalafx.scene.Scene
-import scalafx.stage.Modality.ApplicationModal
-import scalafx.stage.Stage
-import scalafx.Includes.*
 
 
 @FXML
@@ -115,6 +111,22 @@ class FarmController:
 //    villager2Bar.setProgress(v2.nutritionLevel / 100.0)
 
     //create buttons in grid
+    farmGrid.getColumnConstraints.clear()
+    farmGrid.getRowConstraints.clear()
+
+    //equal width columns and equal height rows
+    for (_ <- 0 until farm.numCols) {
+      val col = new javafx.scene.layout.ColumnConstraints()
+      col.setPercentWidth(100.0 / farm.numCols) // each column gets equal width
+      farmGrid.getColumnConstraints.add(col)
+    }
+    for (_ <- 0 until farm.numRows) {
+      val row = new javafx.scene.layout.RowConstraints()
+      row.setPercentHeight(100.0 / farm.numRows) // each row gets equal height
+      farmGrid.getRowConstraints.add(row)
+    }
+
+
     for row <- 0 until farm.numRows do
       for col <- 0 until farm.numCols do
         val plot = farm.plots(row)(col)
@@ -133,7 +145,7 @@ class FarmController:
           //(${plot.progress}/${plot.growthTime}
           btn.setDisable(true)
 
-        btn.setPrefSize(150, 50)
+        btn.setPrefSize(Double.MaxValue, Double.MaxValue)
         farmGrid.add(btn, col, row)
 
   @FXML

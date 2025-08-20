@@ -1,7 +1,6 @@
 package farmgame
 import farmgame.model.{Farm, Villager}
 import farmgame.view.*
-import farmgame.view.AboutController
 import javafx.fxml.FXMLLoader
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
@@ -36,26 +35,21 @@ object FieldsOfPlenty extends JFXApp3:
     rootPane.foreach(_.setCenter(pane))
   }
 
-  def showFarm(): Unit = {
+  def showFarm(): Unit =
+    showFarm(createDefaultFarm())
+
+  def showFarm(farm: Farm): Unit =
     try {
-      val farm: URL = getClass.getResource("/farmgame/view/Farm.fxml")
-      if farm == null then {
-        println("Farm.fxml resource not found")
-        return
-      }
-
-      val loader = new FXMLLoader(farm)
-      println("Loading Farm.fxml...")
-
+      val farmResource: URL = getClass.getResource("/farmgame/view/Farm.fxml")
+      val loader = new FXMLLoader(farmResource)
       val pane = loader.load[javafx.scene.layout.AnchorPane]()
       val ctrl = loader.getController[FarmController]()
-      ctrl.setFarm(createDefaultFarm())
+      ctrl.setFarm(farm)
       rootPane.foreach(_.setCenter(pane))
-    }catch {
+    } catch {
       case e: Exception =>
-        println("Error loading Farm.fxml: $")
+        println("Error loading Farm.fxml")
         e.printStackTrace()
-    }
     }
 
   def createDefaultFarm(): Farm =
@@ -96,6 +90,12 @@ object FieldsOfPlenty extends JFXApp3:
     ctrl.stage = Option(myWindow)
     myWindow.showAndWait() //popup
     ctrl.okClicked
+
+
+  //def showCropInfo()
+  //def showVillagerInfo()//penalties?
+  //def showHowToPlay()
+
 
 
 

@@ -1,5 +1,5 @@
 #mainMenuPane {
-    -fx-background-image: url("/farmgame/view/images/farm.jpeg");
+    -fx-background-image: url("/farmgame/view/images/farm.jpg");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
@@ -25,22 +25,20 @@
 
 /* The empty part of the bar */
 .progress-bar .track {
-    -fx-background-color: #ddd;
+    -fx-background-color: transparent;
+    -fx-border-color: gray;
+    -fx-corner-radius: 20;
 }
-
 /* Nutrition states */
 .nutrition-dead .bar {
     -fx-background-color: gray;
 }
-
 .nutrition-low .bar {
     -fx-background-color: red;
 }
-
 .nutrition-medium .bar {
     -fx-background-color: yellow;
 }
-
 .nutrition-high .bar {
     -fx-background-color: green;
 }
@@ -51,3 +49,20 @@
 /*    -fx-border-radius: 0;*/
 /*    -fx-background-radius: 5;*/
 /*}*/
+
+
+#farmPane {
+    -fx-background-image:url("/farmgame/view/images/farm.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-image-opacity: 0.5;
+}
+
+#hBox{
+    -fx-background-color: rgba(255,255,255,0.8);
+    -fx-border-color: black;
+    -fx-border-width: 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
