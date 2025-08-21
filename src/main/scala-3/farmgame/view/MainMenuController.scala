@@ -14,5 +14,13 @@ class MainMenuController():
   }
 
   @FXML
+  def handleHowToPlay(action: ActionEvent): Unit =
+    FieldsOfPlenty.showHowToPlay()
+
+  @FXML
+  def handleAbout(action: ActionEvent): Unit =
+    FieldsOfPlenty.showAbout()
+
+  @FXML
   def handleExit(action: ActionEvent): Unit =
     System.exit(0)

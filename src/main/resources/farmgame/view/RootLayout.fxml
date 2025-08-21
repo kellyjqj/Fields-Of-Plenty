@@ -24,7 +24,7 @@
                   </MenuItem>
                   <MenuItem onAction="#handleRestartGame" text="_Restart Game">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="M" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
                     </items>

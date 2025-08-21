@@ -1,7 +1,5 @@
 package farmgame.model
 
-import scalafx.beans.property.{IntegerProperty, StringProperty}
-
 abstract class Crop(val name: String, val growthTime: Int, val category: NutritionCategory, val nutritionValue: Int):
   var progress: Int = 0
 

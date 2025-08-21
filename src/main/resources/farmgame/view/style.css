@@ -12,12 +12,13 @@
 }
 
 #titleLabel {
-    -fx-font-size: 30px;
-    -fx-font-weight: bold;
+    -fx-font-size: 60px;
+    /*-fx-font-weight: bold;*/
     -fx-text-fill: green;
     -fx-padding: 10px;
     -fx-background-color: rgba(255,255,255,0.5);
-    -fx-border-color: black;
+    -fx-font-family: "Impact";
+    -fx-background-radius: 5px;
 }
 
 /* The empty part of the bar */
@@ -42,16 +43,17 @@
 .button {
     -fx-background-color: transparent;
     -fx-border-color: black;
-    -fx-border-width: 1;
+    -fx-border-width: 1.5;
     -fx-border-radius: 0;
     -fx-background-radius: 5;
-    -fx-background-image: url("/farmgame/view/images/sign.png");
+    -fx-background-image: url("/farmgame/view/images/lightersign.png");
     -fx-background-size: 100% 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-padding: 10px 20px 10px 20px;
+    -fx-padding: 8px 20px 8px 20px;
+    -fx-pref-width: 150px;
 }
 
 .button:hover {
@@ -72,15 +74,15 @@
     -fx-background-size: 100% 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
-    -fx-background-image-opacity: 0.5;
 }
 
 #hBox{
-    -fx-background-color: rgba(137, 255, 50, 0.5);
+    -fx-background-color: rgba(94, 195, 19, 0.3);
     -fx-border-color: black;
     -fx-border-width: 0;
     -fx-background-radius: 5px;
     -fx-font-weight: bold;
+    -fx-alignment: center;
 }
 #hBox .label{
     -fx-text-fill: white;
@@ -112,21 +114,22 @@
     -fx-background-size: 100% 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
+    -fx-pref-width: 200px;
 }
 
 /*menu button*/
 #farmPane .menu-button {
     -fx-background-color: transparent;
     -fx-border-color: black;
-    -fx-border-width: 1;
+    -fx-border-width: 1.5;
     -fx-border-radius: 0;
-    -fx-background-radius: 5;
-    -fx-background-image: url("/farmgame/view/images/sign.png");
+    /*-fx-background-radius: 5;*/
+    -fx-background-image: url("/farmgame/view/images/lightersign.png");
     -fx-background-size: 100% 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
     -fx-text-fill: white;
-    -fx-padding: 10px 0px 10px 0px;
+    -fx-padding: 5px 0px 5px 0px;
 }
 
 #farmPane .menu-button .label {

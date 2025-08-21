@@ -35,7 +35,7 @@
             </GridPane>
          </center>
          <bottom>
-            <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <ButtonBar fx:id="buttonBar" prefHeight="45.0" prefWidth="392.0" BorderPane.alignment="CENTER">
               <buttons>
                   <Label fx:id="daysSurvivedLabel" text="Days Survived: 0" />
                 <Button fx:id="nextDayButton" mnemonicParsing="false" onAction="#handleNextDay" text="Next Day" />

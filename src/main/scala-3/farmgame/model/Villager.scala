@@ -22,18 +22,12 @@ class Villager(val name: String):
     if dietHistory.size == 5 && dietHistory.forall(_ == dietHistory.head) then
       nutritionLevel -= 10
       if nutritionLevel < 0 then nutritionLevel = 0
-      
-      
+  
   def nextDay(): Unit =
     daysSinceLastMeal += 1
     //3 or more days without food, villager's nutrition level decreases
     if daysSinceLastMeal >= 3 then
       nutritionLevel -= 5
       if nutritionLevel < 0 then nutritionLevel = 0
-
-  //  def applyVarietyPenalty(): Unit =
-//    if dietHistory.nonEmpty && dietHistory.forall(_ == dietHistory.head) then
-//      nutritionLevel -= 10
-//      if nutritionLevel < 0 then nutritionLevel = 0
-
+  
   def isAlive: Boolean = nutritionLevel > 0
