@@ -76,15 +76,18 @@
     -fx-background-position: center center;
 }
 
-#hBox{
+
+/*villagers*/
+#villagerGrid {
     -fx-background-color: rgba(94, 195, 19, 0.3);
     -fx-border-color: black;
-    -fx-border-width: 0;
+    -fx-border-width: 1;
     -fx-background-radius: 5px;
     -fx-font-weight: bold;
     -fx-alignment: center;
 }
-#hBox .label{
+
+#villagerGrid .label {
     -fx-text-fill: white;
 }
 

@@ -5,10 +5,15 @@ import farmgame.model.*
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.MenuItem
+import javafx.scene.image.Image
 
 
 @FXML
 class FarmController:
+  @FXML
+  private var villager1Image: javafx.scene.image.ImageView = _
+  @FXML
+  private var villager2Image: javafx.scene.image.ImageView = _
   @FXML
   private var villager1Label: javafx.scene.control.Label = _
   @FXML
@@ -30,6 +35,18 @@ class FarmController:
   @FXML
   private var daysSurvivedLabel: javafx.scene.control.Label = _
 
+//villager sprites
+  private val v1Normal = new Image(getClass.getResourceAsStream("/farmgame/view/images/v1.png"))
+  private val v1Happy = new Image(getClass.getResourceAsStream("/farmgame/view/images/v1happy.png"))
+  private val v1Sad = new Image(getClass.getResourceAsStream("/farmgame/view/images/v1sad.png"))
+  private val v1Eating = new Image(getClass.getResourceAsStream("/farmgame/view/images/v1eat.png"))
+  private val v1Dead = new Image(getClass.getResourceAsStream("/farmgame/view/images/v1dead.png"))
+
+  private val v2Normal = new Image(getClass.getResourceAsStream("/farmgame/view/images/v2.png"))
+  private val v2Happy = new Image(getClass.getResourceAsStream("/farmgame/view/images/v2happy.png"))
+  private val v2Sad = new Image(getClass.getResourceAsStream("/farmgame/view/images/v2sad.png"))
+  private val v2Eating = new Image(getClass.getResourceAsStream("/farmgame/view/images/v2eat.png"))
+  private val v2Dead = new Image(getClass.getResourceAsStream("/farmgame/view/images/v2dead.png"))
 
   @FXML
   def setFarm(f: Farm): Unit =
@@ -38,7 +55,8 @@ class FarmController:
     setupVillagerMenu()
     renderFarm()
 
-  @FXML def handleNextDay(event: ActionEvent): Unit =
+  @FXML
+  def handleNextDay(event: ActionEvent): Unit =
     farm.nextDay()
     farm.people.foreach(_.nextDay())
     renderFarm()
@@ -77,26 +95,56 @@ class FarmController:
     else
       villagerMenu.setText("Select Villager")
 
+  private def updateVillagerUI(index: Int,
+                                villager: Villager,
+                                label: javafx.scene.control.Label,
+                                imageView: javafx.scene.image.ImageView,
+                                progressBar: javafx.scene.control.ProgressBar
+                              ): Unit = {
+    val fraction = villager.nutritionLevel / 100.0
+    progressBar.setProgress(fraction)
+
+    val nutritionClasses = List("nutrition-dead", "nutrition-low", "nutrition-medium", "nutrition-high")
+    progressBar.getStyleClass.removeAll(nutritionClasses: _*)
+
+    if villager.isAlive then
+      label.setText(s"${villager.name}: ${villager.nutritionLevel}")
+
+      //set villager sprite
+      if currentlyEating.contains(index) then
+        imageView.setImage(if index == 0 then v1Eating else v2Eating)
+      else if villager.nutritionLevel < 30 then
+        imageView.setImage(if index == 0 then v1Sad else v2Sad)
+      else if villager.nutritionLevel < 60 then
+        imageView.setImage(if index == 0 then v1Normal else v2Normal)
+      else
+        imageView.setImage(if index == 0 then v1Happy else v2Happy)
+
+    else
+      label.setText(s"${villager.name}: DEAD")
+      imageView.setImage(if index == 0 then v1Dead else v2Dead)
+
+    //progressbar
+    if !villager.isAlive then
+      progressBar.getStyleClass.add("nutrition-dead")
+    else if villager.nutritionLevel < 30 then
+      progressBar.getStyleClass.add("nutrition-low")
+    else if villager.nutritionLevel < 60 then
+      progressBar.getStyleClass.add("nutrition-medium")
+    else
+      progressBar.getStyleClass.add("nutrition-high")
+  }
+
   @FXML
   def renderFarm(): Unit =
     println("Rendering farm...")
     farmGrid.getChildren.clear()
 
-    //update villagers
     val v1 = farm.people(0)
     val v2 = farm.people(1)
 
-    villager1Label.setText(
-      if v1.isAlive then
-        s"${v1.name}: ${v1.nutritionLevel}"
-      else s"${v1.name}: DEAD")
-    villager2Label.setText(
-      if v2.isAlive then
-        s"${v2.name}: ${v2.nutritionLevel}"
-      else s"${v2.name}: DEAD")
-
-    updateProgressBar(villager1Bar, v1.nutritionLevel, v1.isAlive)
-    updateProgressBar(villager2Bar, v2.nutritionLevel, v2.isAlive)
+    updateVillagerUI(0, v1, villager1Label, villager1Image, villager1Bar)
+    updateVillagerUI(1, v2, villager2Label, villager2Image, villager2Bar)
 
     daysSurvivedLabel.setText(s"Days Survived: ${farm.daysSurvived}")
 
@@ -116,7 +164,6 @@ class FarmController:
       farmGrid.getRowConstraints.add(row)
     }
 
-
     for row <- 0 until farm.numRows do
       for col <- 0 until farm.numCols do
         val plot = farm.plots(row)(col)
@@ -132,7 +179,6 @@ class FarmController:
           btn.setOnAction(_ => handlePlot(row, col))
         else
           btn.setText(s"${plot.getCropName}")
-          //(${plot.progress}/${plot.growthTime}
           btn.setDisable(true)
 
         btn.setPrefSize(Double.MaxValue, Double.MaxValue)
@@ -152,12 +198,6 @@ class FarmController:
         case _ => println("No crop selected")
                   FieldsOfPlenty.showSelectCrop()
 
-//    else if plot.isReady then
-//      val harvested = farm.harvestAt(row, col)
-//      villagerMenu.getText match
-//        case "Alice" => harvested.foreach(crop => farm.feedVillager(0, crop))
-//        case "Bob" => harvested.foreach(crop => farm.feedVillager(1, crop))
-//        case _ => println("No villager selected")
     else if plot.isReady then
       val selected = villagerMenu.getText
       if selected == "Select Villager" || selected == "No villagers alive" then
@@ -176,43 +216,39 @@ class FarmController:
         val harvested = farm.harvestAt(row, col)
         harvested.foreach { crop =>
           farm.feedVillager(index, crop)
+          playEatingAnimation(index)
         }
-//    else if plot.isReady then
-//      val selected = villagerMenu.getText
-//      if selected == "Select Villager" || selected == "No villagers alive" then
-//        println("⚠ Please select a living villager before harvesting!")
-//        return
-//      else
-//        val harvested = farm.harvestAt(row, col)
-//        harvested.foreach { crop =>
-//          val index = farm.people.indexWhere(_.name == selected)
-//          if index >= 0 then farm.feedVillager(index, crop)
-//        }
 
     renderFarm()
 
-  private def updateProgressBar(bar: javafx.scene.control.ProgressBar, nutrition: Int, alive: Boolean): Unit =
-    val fraction = nutrition / 100.0
-    bar.setProgress(fraction)
+  private var currentlyEating: Set[Int] = Set()
 
-    // clear old classes
-    bar.getStyleClass.removeAll("nutrition-dead", "nutrition-low", "nutrition-medium", "nutrition-high")
+  private def playEatingAnimation(villagerIndex: Int): Unit =
+    currentlyEating += villagerIndex
 
-    // add new class depending on state
-    if !alive then
-      bar.getStyleClass.add("nutrition-dead")
-    else if nutrition < 30 then
-      bar.getStyleClass.add("nutrition-low")
-    else if nutrition < 60 then
-      bar.getStyleClass.add("nutrition-medium")
-    else
-      bar.getStyleClass.add("nutrition-high")
+    val (imageView, eatingImg, normalImg) =
+      if villagerIndex == 0 then
+        (villager1Image, v1Eating, v1Normal)
+      else (villager2Image, v2Eating, v2Normal)
+
+    imageView.setImage(eatingImg)
+
+    val pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1))
+    pause.setOnFinished(_ => {
+      currentlyEating -= villagerIndex
+      renderFarm()
+    })
+    pause.play()
 
 
-  private def checkGameOver(): Unit =
+  private def checkGameOver(): Unit = {
     if farm.people.forall(!_.isAlive) then {
       println(s"DEBUG: Game Over at day ${farm.daysSurvived}")
       val days = farm.daysSurvived
       farmgame.FieldsOfPlenty.showGameOver(days)
     }
+    if farm.people.forall(_.isAlive) && farm.people.forall(_.nutritionLevel >= 100) then {
+      //farmgame.FieldsOfPlenty.showGameWon, show days Survived
+    }
+  }
 
