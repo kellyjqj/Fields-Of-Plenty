@@ -6,6 +6,10 @@
     -fx-background-image-opacity: 0.5;
 }
 
+#mainMenuPane .button {
+    -fx-font-weight: bold;
+}
+
 .label {
     -fx-alignment: center;
     -fx-text-alignment: center;

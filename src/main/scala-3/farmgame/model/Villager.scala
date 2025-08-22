@@ -19,7 +19,7 @@ class Villager(val name: String):
     if dietHistory.size > 5 then dietHistory.dequeue()//keep last 5 meals
 
     //variety penalty
-    if dietHistory.size == 5 && dietHistory.forall(_ == dietHistory.head) then
+    if dietHistory.size == 6 && dietHistory.forall(_ == dietHistory.head) then
       nutritionLevel -= 10
       if nutritionLevel < 0 then nutritionLevel = 0
   

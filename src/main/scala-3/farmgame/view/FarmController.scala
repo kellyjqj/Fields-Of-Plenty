@@ -131,7 +131,7 @@ class FarmController:
           btn.setText(s"${plot.getCropName}")
           btn.setDisable(true)
 
-        btn.setPrefSize(Double.MaxValue, Double.MaxValue)
+        btn.setMaxSize(Double.MaxValue, Double.MaxValue)
         farmGrid.add(btn, col, row)
   
   def setupCropMenu(): Unit =

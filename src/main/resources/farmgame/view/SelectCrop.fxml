@@ -26,7 +26,7 @@
         </rowConstraints>
          <children>
             <Label text="No crop selected!!!" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-            <Button mnemonicParsing="false" onAction="#handleOk" text="Ok" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#handleOk" prefHeight="37.0" prefWidth="111.0" text="Ok" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <padding>
                   <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                </padding>
