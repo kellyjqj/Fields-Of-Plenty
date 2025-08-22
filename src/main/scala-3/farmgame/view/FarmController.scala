@@ -56,6 +56,7 @@ class FarmController:
     farm = f
     setupCropMenu()
     setupVillagerMenu()
+    setupDragAndDrop()
     renderFarm()
 
   @FXML
@@ -106,26 +107,24 @@ class FarmController:
         else if plot.isReady then
           btn.setText(s"Harvest ${plot.getCropName}")
           btn.setDisable(false)
-          btn.setOnAction(_ => handlePlot(row, col))
+//          btn.setOnAction(_ => handlePlot(row, col))
+
+          //drag n drop
+          btn.setOnDragDetected{ event =>
+            val db = btn.startDragAndDrop(javafx.scene.input.TransferMode.MOVE)
+            val content = new javafx.scene.input.ClipboardContent()
+            content.putString(s"$row,$col") //encode which plot
+            db.setContent(content)
+            event.consume()
+          }
           
-//          //drag n drop
-//          btn.setOnDragDetected{ event => 
-//            val db = btn.startDragAndDrop(javafx.scene.input.TransferMode.MOVE)
-//            val content = new javafx.scene.input.ClipboardContent()
-//            content.putString(s"$row, $col") //encode which plot
-//            db.setContent(content)
-//            event.consume()
-//          }
-//          
-
-
         else
           btn.setText(s"${plot.getCropName}")
           btn.setDisable(true)
 
         btn.setPrefSize(Double.MaxValue, Double.MaxValue)
         farmGrid.add(btn, col, row)
-
+  
   def setupCropMenu(): Unit =
     val crops = List("Rice", "Soy","Potato", "Tomato", "Orange")
     cropMenu.getItems.clear()
@@ -212,6 +211,39 @@ class FarmController:
       renderFarm()
     })
     pause.play()
+    
+  private def setupDragAndDrop(): Unit = 
+    setupVillagerDrop(villager1Image, 0)
+    setupVillagerDrop(villager2Image, 1)
+    
+  private def setupVillagerDrop(imageView: javafx.scene.image.ImageView, villagerIndex: Int): Unit = {
+    imageView.setOnDragOver { event => 
+      if event.getGestureSource != imageView && event.getDragboard.hasString then
+        event.acceptTransferModes(javafx.scene.input.TransferMode.MOVE)
+      event.consume()
+    }
+    imageView.setOnDragDropped { event =>
+      val db = event.getDragboard
+      if db.hasString then
+        val parts = db.getString.split(",")
+        val row = parts(0).toInt
+        val col = parts(1).toInt
+        
+        val harvested = farm.harvestAt(row, col)
+        harvested.foreach { crop =>
+          farm.feedVillager(villagerIndex, crop)
+          playEatingAnimation(villagerIndex)
+        }
+        renderFarm()
+        event.setDropCompleted(true)
+      else event.setDropCompleted(false)
+      event.consume()
+    }
+    imageView.setOnDragEntered(_ =>
+      imageView.setImage(if villagerIndex == 0 then v1Eating else v2Eating))
+    imageView.setOnDragExited(_ => 
+      renderFarm())
+  }
 
   def handlePlot(row: Int, col: Int): Unit =
     val plot = farm.plots(row)(col)
