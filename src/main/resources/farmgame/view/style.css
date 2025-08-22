@@ -9,6 +9,7 @@
 .label {
     -fx-alignment: center;
     -fx-text-alignment: center;
+    -fx-background-color: transparent;
 }
 
 #titleLabel {
@@ -155,4 +156,47 @@
 #farmPane .menu-item:focused {
     -fx-background-color: rgba(180, 50, 50, 0.8); /* highlight on hover/selection */
     -fx-text-fill: yellow;  /* optional hover color */
+}
+
+#aboutPane, #howToPlayPane, #cropInfoPane {
+    -fx-background-image: url("/farmgame/view/images/farm.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-image-opacity: 0.5;
+}
+
+.text-area{
+    -fx-control-inner-background: rgba(248, 223, 154, 0.3);
+    -fx-background-color: rgba(255,255,255,0.5);
+    -fx-background-radius: 5px;
+}
+
+.gridPane {
+    -fx-background-color: rgba(255,255,255,0.8);
+    -fx-background-radius: 5px;
+}
+
+#gameOverPane, #cropInfoPane, #selectCropPane, #selectVillagerPane {
+    -fx-background-image: url("/farmgame/view/images/grass.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+
+#selectCropPane .label, #selectVillagerPane .label {
+    -fx-text-fill: white;
+}
+
+/*should be red when lose, rainbow/green when win*/
+#gameOverLabel {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: red;
+}
+#gameOverDescLabel, #finalDaysSurvivedLabel {
+    -fx-font-size: 15px;
+    -fx-text-fill: red;
+    -fx-padding: 10px;
+    -fx-background-size: 100% 100%;
 }

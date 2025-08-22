@@ -53,7 +53,7 @@ object FieldsOfPlenty extends JFXApp3:
   private def createDefaultFarm(): Farm =
     Farm(3, 3, List(Villager("Alice"), Villager("Bob")))
 
-  def showGameOver(days: Int): Boolean =
+  def showGameOver(days: Int, win: Boolean): Boolean =
     val gameOver = getClass.getResource("/farmgame/view/GameOver.fxml")
     val loader = new FXMLLoader(gameOver)
     loader.load()
@@ -61,17 +61,17 @@ object FieldsOfPlenty extends JFXApp3:
     val myWindow = new Stage():
       initOwner(stage)
       initModality(ApplicationModal)
-      title = "Game Over"
+      title = if win then "You Won!" else "Game Over"
       scene = new Scene():
         root = pane
     val ctrl = loader.getController[GameOverController]()
-    ctrl.setScore(days)
+    ctrl.setScore(days, win)
 
     ctrl.stage = Option(myWindow)
     myWindow.showAndWait() //popup
     ctrl.okClicked
 
-  //popup dialog
+  //popup dialogs
   def showAbout(): Boolean =
     val about = getClass.getResource("/farmgame/view/About.fxml")
     val loader = new FXMLLoader(about)
@@ -120,7 +120,6 @@ object FieldsOfPlenty extends JFXApp3:
     ctrl.stage = Option(myWindow)
     myWindow.showAndWait()
     ctrl.okClicked
-
 
 //show select crop
   def showSelectCrop(): Boolean =

@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmgame.view.CropInfoController">
+<AnchorPane fx:id="cropInfoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="500.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmgame.view.CropInfoController">
    <children>
       <Label layoutX="23.0" layoutY="23.0" text="Crop Information: " />
-      <GridPane layoutX="36.0" layoutY="49.0" prefHeight="237.0" prefWidth="429.0">
+      <GridPane layoutX="36.0" layoutY="49.0" prefHeight="237.0" prefWidth="429.0" styleClass="gridPane">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -52,6 +52,6 @@
             <Label text="Nutrition Value" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
-      <Button layoutX="418.0" layoutY="304.0" onAction="#handleClose" text="_Close" />
+      <Button layoutX="315.0" layoutY="305.0" onAction="#handleClose" text="_Close" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
    </children>
 </AnchorPane>

@@ -3,7 +3,7 @@ package farmgame.model
 import scala.collection.mutable
 
 class Villager(val name: String):
-  var nutritionLevel: Int = 50 //initial nutrition level
+  var nutritionLevel: Double = 50.0 //initial nutrition level
   private val dietHistory = mutable.Queue.empty[NutritionCategory]
   private var daysSinceLastMeal: Int = 0
 
@@ -25,9 +25,15 @@ class Villager(val name: String):
   
   def nextDay(): Unit =
     daysSinceLastMeal += 1
-    //3 or more days without food, villager's nutrition level decreases
-    if daysSinceLastMeal >= 3 then
-      nutritionLevel -= 5
+
+    //use daysSinceLastMeal *1.5 as amount to decrease
+    if daysSinceLastMeal >= 1 then
+      nutritionLevel -= math.ceil(daysSinceLastMeal * 1.5)
       if nutritionLevel < 0 then nutritionLevel = 0
-  
+
+    // or more days without food, villager's nutrition level decreases
+//    if daysSinceLastMeal >= 1 then
+//      nutritionLevel -= 2
+//      if nutritionLevel < 0 then nutritionLevel = 0
+
   def isAlive: Boolean = nutritionLevel > 0

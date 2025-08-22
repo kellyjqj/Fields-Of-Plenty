@@ -6,7 +6,8 @@ import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.MenuItem
 import javafx.scene.image.Image
-
+import javafx.animation.{KeyFrame, Timeline}
+import javafx.util.Duration
 
 @FXML
 class FarmController:
@@ -51,6 +52,13 @@ class FarmController:
   private val v2Eating = new Image(getClass.getResourceAsStream("/farmgame/view/images/v2eat.png"))
   private val v2Dead = new Image(getClass.getResourceAsStream("/farmgame/view/images/v2dead.png"))
 
+  private val v1EatingFrames = Seq(
+    v1Normal, v1Eating, v1Normal, v1Eating
+  )
+  private val v2EatingFrames = Seq(
+    v2Normal, v2Eating, v2Normal, v2Eating
+  )
+
   @FXML
   def setFarm(f: Farm): Unit =
     farm = f
@@ -64,6 +72,7 @@ class FarmController:
     farm.nextDay()
     farm.people.foreach(_.nextDay())
     renderFarm()
+    setupCropMenu()
     setupVillagerMenu()
     checkGameOver()
 
@@ -107,7 +116,7 @@ class FarmController:
         else if plot.isReady then
           btn.setText(s"Harvest ${plot.getCropName}")
           btn.setDisable(false)
-//          btn.setOnAction(_ => handlePlot(row, col))
+          btn.setOnAction(_ => handlePlot(row, col))
 
           //drag n drop
           btn.setOnDragDetected{ event =>
@@ -168,7 +177,7 @@ class FarmController:
     progressBar.getStyleClass.removeAll(nutritionClasses: _*)
 
     if villager.isAlive then
-      label.setText(s"${villager.name}: ${villager.nutritionLevel}")
+      label.setText(s"${villager.name}: ${villager.nutritionLevel.toInt}")
 
       //set villager sprite
       if currentlyEating.contains(index) then
@@ -195,22 +204,45 @@ class FarmController:
       progressBar.getStyleClass.add("nutrition-high")
   }
 
-  private def playEatingAnimation(villagerIndex: Int): Unit =
+  private def playEatingAnimation(villagerIndex: Int): Unit = {
     currentlyEating += villagerIndex
 
-    val (imageView, eatingImg, normalImg) =
+    //eating with frames animation
+
+    val (imageView, frames, normalImg) =
       if villagerIndex == 0 then
-        (villager1Image, v1Eating, v1Normal)
-      else (villager2Image, v2Eating, v2Normal)
+        (villager1Image, v1EatingFrames, v1Normal)
+      else
+        (villager2Image, v2EatingFrames, v2Normal)
 
-    imageView.setImage(eatingImg)
-
-    val pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1))
-    pause.setOnFinished(_ => {
-      currentlyEating -= villagerIndex
-      renderFarm()
-    })
-    pause.play()
+    val timeline = new Timeline()
+    for (i <- frames.indices) {
+      val frame = frames(i)
+      timeline.getKeyFrames.add(
+        new KeyFrame(Duration.millis(150*i), _ => imageView.setImage(frame))
+      )
+    }
+    timeline.getKeyFrames.add(
+      new KeyFrame(Duration.millis(150 * frames.size), _ => {
+        currentlyEating -= villagerIndex
+        renderFarm()
+      })
+    )
+    timeline.play()
+  //    val (imageView, eatingImg, normalImg) =
+//      if villagerIndex == 0 then
+//        (villager1Image, v1Eating, v1Normal)
+//      else (villager2Image, v2Eating, v2Normal)
+//
+//    imageView.setImage(eatingImg)
+//
+//    val pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1))
+//    pause.setOnFinished(_ => {
+//      currentlyEating -= villagerIndex
+//      renderFarm()
+//    })
+//    pause.play()
+  }
     
   private def setupDragAndDrop(): Unit = 
     setupVillagerDrop(villager1Image, 0)
@@ -234,6 +266,7 @@ class FarmController:
           farm.feedVillager(villagerIndex, crop)
           playEatingAnimation(villagerIndex)
         }
+        checkGameOver()
         renderFarm()
         event.setDropCompleted(true)
       else event.setDropCompleted(false)
@@ -278,6 +311,7 @@ class FarmController:
           farm.feedVillager(index, crop)
           playEatingAnimation(index)
         }
+        checkGameOver()
 
     renderFarm()
 
@@ -285,10 +319,13 @@ class FarmController:
     if farm.people.forall(!_.isAlive) then {
       println(s"DEBUG: Game Over at day ${farm.daysSurvived}")
       val days = farm.daysSurvived
-      farmgame.FieldsOfPlenty.showGameOver(days)
+      farmgame.FieldsOfPlenty.showGameOver(days, win = false)
     }
-    if farm.people.forall(_.isAlive) && farm.people.forall(_.nutritionLevel >= 100) then {
-      //farmgame.FieldsOfPlenty.showGameWon, show days Survived
+    else if farm.people.forall(_.isAlive)
+      && farm.people.forall(_.nutritionLevel >= 100) then {
+      println("DEBUG: Game Won!")
+      val days = farm.daysSurvived
+      farmgame.FieldsOfPlenty.showGameOver(days, win = true)
     }
   }
 
