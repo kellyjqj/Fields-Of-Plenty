@@ -35,6 +35,9 @@ class FarmController:
   @FXML
   private var daysSurvivedLabel: javafx.scene.control.Label = _
 
+  //to keep track of which villager is eating
+  private var currentlyEating: Set[Int] = Set()
+
 //villager sprites
   private val v1Normal = new Image(getClass.getResourceAsStream("/farmgame/view/images/v1.png"))
   private val v1Happy = new Image(getClass.getResourceAsStream("/farmgame/view/images/v1happy.png"))
@@ -63,7 +66,66 @@ class FarmController:
     setupVillagerMenu()
     checkGameOver()
 
-  @FXML
+  private def renderFarm(): Unit =
+    println("Rendering farm...")
+    farmGrid.getChildren.clear()
+
+    val v1 = farm.people.head
+    val v2 = farm.people(1)
+
+    updateVillagerUI(0, v1, villager1Label, villager1Image, villager1Bar)
+    updateVillagerUI(1, v2, villager2Label, villager2Image, villager2Bar)
+
+    daysSurvivedLabel.setText(s"Days Survived: ${farm.daysSurvived}")
+
+    //create buttons in grid
+    farmGrid.getColumnConstraints.clear()
+    farmGrid.getRowConstraints.clear()
+
+    //equal width columns and equal height rows
+    for (_ <- 0 until farm.numCols) {
+      val col = new javafx.scene.layout.ColumnConstraints()
+      col.setPercentWidth(100.0 / farm.numCols) // each column gets equal width
+      farmGrid.getColumnConstraints.add(col)
+    }
+    for (_ <- 0 until farm.numRows) {
+      val row = new javafx.scene.layout.RowConstraints()
+      row.setPercentHeight(100.0 / farm.numRows) // each row gets equal height
+      farmGrid.getRowConstraints.add(row)
+    }
+
+    for row <- 0 until farm.numRows do
+      for col <- 0 until farm.numCols do
+        val plot = farm.plots(row)(col)
+        val btn = new javafx.scene.control.Button()
+
+        if plot.isEmpty then
+          btn.setText("Plant")
+          btn.setDisable(false)
+          btn.setOnAction(_ => handlePlot(row, col))
+        else if plot.isReady then
+          btn.setText(s"Harvest ${plot.getCropName}")
+          btn.setDisable(false)
+          btn.setOnAction(_ => handlePlot(row, col))
+          
+//          //drag n drop
+//          btn.setOnDragDetected{ event => 
+//            val db = btn.startDragAndDrop(javafx.scene.input.TransferMode.MOVE)
+//            val content = new javafx.scene.input.ClipboardContent()
+//            content.putString(s"$row, $col") //encode which plot
+//            db.setContent(content)
+//            event.consume()
+//          }
+//          
+
+
+        else
+          btn.setText(s"${plot.getCropName}")
+          btn.setDisable(true)
+
+        btn.setPrefSize(Double.MaxValue, Double.MaxValue)
+        farmGrid.add(btn, col, row)
+
   def setupCropMenu(): Unit =
     val crops = List("Rice", "Soy","Potato", "Tomato", "Orange")
     cropMenu.getItems.clear()
@@ -76,7 +138,6 @@ class FarmController:
       cropMenu.getItems.add(item)
     cropMenu.setText("Select Crop")
 
-  @FXML
   def setupVillagerMenu(): Unit =
     val villagers = farm.people.map(_.name)
 
@@ -135,56 +196,23 @@ class FarmController:
       progressBar.getStyleClass.add("nutrition-high")
   }
 
-  @FXML
-  def renderFarm(): Unit =
-    println("Rendering farm...")
-    farmGrid.getChildren.clear()
+  private def playEatingAnimation(villagerIndex: Int): Unit =
+    currentlyEating += villagerIndex
 
-    val v1 = farm.people(0)
-    val v2 = farm.people(1)
+    val (imageView, eatingImg, normalImg) =
+      if villagerIndex == 0 then
+        (villager1Image, v1Eating, v1Normal)
+      else (villager2Image, v2Eating, v2Normal)
 
-    updateVillagerUI(0, v1, villager1Label, villager1Image, villager1Bar)
-    updateVillagerUI(1, v2, villager2Label, villager2Image, villager2Bar)
+    imageView.setImage(eatingImg)
 
-    daysSurvivedLabel.setText(s"Days Survived: ${farm.daysSurvived}")
+    val pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1))
+    pause.setOnFinished(_ => {
+      currentlyEating -= villagerIndex
+      renderFarm()
+    })
+    pause.play()
 
-    //create buttons in grid
-    farmGrid.getColumnConstraints.clear()
-    farmGrid.getRowConstraints.clear()
-
-    //equal width columns and equal height rows
-    for (_ <- 0 until farm.numCols) {
-      val col = new javafx.scene.layout.ColumnConstraints()
-      col.setPercentWidth(100.0 / farm.numCols) // each column gets equal width
-      farmGrid.getColumnConstraints.add(col)
-    }
-    for (_ <- 0 until farm.numRows) {
-      val row = new javafx.scene.layout.RowConstraints()
-      row.setPercentHeight(100.0 / farm.numRows) // each row gets equal height
-      farmGrid.getRowConstraints.add(row)
-    }
-
-    for row <- 0 until farm.numRows do
-      for col <- 0 until farm.numCols do
-        val plot = farm.plots(row)(col)
-        val btn = new javafx.scene.control.Button()
-
-        if plot.isEmpty then
-          btn.setText("Plant")
-          btn.setDisable(false)
-          btn.setOnAction(_ => handlePlot(row, col))
-        else if plot.isReady then
-          btn.setText(s"Harvest ${plot.getCropName}")
-          btn.setDisable(false)
-          btn.setOnAction(_ => handlePlot(row, col))
-        else
-          btn.setText(s"${plot.getCropName}")
-          btn.setDisable(true)
-
-        btn.setPrefSize(Double.MaxValue, Double.MaxValue)
-        farmGrid.add(btn, col, row)
-
-  @FXML
   def handlePlot(row: Int, col: Int): Unit =
     val plot = farm.plots(row)(col)
 
@@ -196,7 +224,7 @@ class FarmController:
         case "Tomato" => farm.plantAt(row, col, new Tomato)
         case "Orange" => farm.plantAt(row, col, new Orange)
         case _ => println("No crop selected")
-                  FieldsOfPlenty.showSelectCrop()
+          FieldsOfPlenty.showSelectCrop()
 
     else if plot.isReady then
       val selected = villagerMenu.getText
@@ -220,26 +248,6 @@ class FarmController:
         }
 
     renderFarm()
-
-  private var currentlyEating: Set[Int] = Set()
-
-  private def playEatingAnimation(villagerIndex: Int): Unit =
-    currentlyEating += villagerIndex
-
-    val (imageView, eatingImg, normalImg) =
-      if villagerIndex == 0 then
-        (villager1Image, v1Eating, v1Normal)
-      else (villager2Image, v2Eating, v2Normal)
-
-    imageView.setImage(eatingImg)
-
-    val pause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(1))
-    pause.setOnFinished(_ => {
-      currentlyEating -= villagerIndex
-      renderFarm()
-    })
-    pause.play()
-
 
   private def checkGameOver(): Unit = {
     if farm.people.forall(!_.isAlive) then {

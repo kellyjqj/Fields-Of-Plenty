@@ -11,7 +11,7 @@ class CropInfoController():
   var okClicked = false
   
   @FXML
-  def handleClose(event: ActionEvent): Unit =
+  def handleClose(action: ActionEvent): Unit =
     okClicked = true
     stage.foreach(_.close())
     
