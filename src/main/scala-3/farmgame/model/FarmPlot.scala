@@ -24,7 +24,7 @@ class FarmPlot():
 
   def getCropName: String =
     crop.map(c =>
-      if c.isReady then s"${c.name} (ready)"
+      if c.isReady then s"${c.name}"
       else s"${c.name} ${c.progress}/${c.growthTime}"
     ).getOrElse("Empty")
 

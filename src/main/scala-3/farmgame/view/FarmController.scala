@@ -259,13 +259,13 @@ class FarmController:
         case "Tomato" => farm.plantAt(row, col, new Tomato)
         case "Orange" => farm.plantAt(row, col, new Orange)
         case _ => println("No crop selected")
-          FieldsOfPlenty.showSelectCrop()
+          FieldsOfPlenty.showWarningDialog("No Crop Selected", "Please select a crop before planting!")
 
     else if plot.isReady then
       val selected = villagerMenu.getText
       if selected == "Select Villager" || selected == "No villagers alive" then
         println("⚠ Please select a living villager before harvesting!")
-        FieldsOfPlenty.showSelectVillager()
+        FieldsOfPlenty.showWarningDialog("No Villager Selected", "Please select a villager before harvesting!")
         return
       else
         val index = farm.people.indexWhere(_.name == selected)

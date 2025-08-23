@@ -181,18 +181,18 @@
     -fx-background-radius: 5px;
 }
 
-#gameOverPane, #cropInfoPane, #selectCropPane, #selectVillagerPane {
+#gameOverPane, #cropInfoPane, #warningDialogPane {
     -fx-background-image: url("/farmgame/view/images/grass.png");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
 }
 
-#selectCropPane .label, #selectVillagerPane .label {
+#warningDialogPane .label {
     -fx-text-fill: white;
+    -fx-font-weight: bold;
 }
 
-/*should be red when lose, rainbow/green when win*/
 #gameOverLabel {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
@@ -202,9 +202,6 @@
     -fx-padding: 10px;
     -fx-background-size: 100% 100%;
 }
-
-
-/*#finalDaysSurvivedLabel*/
 
 .game-over-win {
     -fx-text-fill: #4bf24b;

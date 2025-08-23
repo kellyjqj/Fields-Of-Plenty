@@ -140,19 +140,22 @@ object FieldsOfPlenty extends JFXApp3:
     ctrl.okClicked
     
 ///show select villager
-  def showSelectVillager(): Boolean =
-    val selectVillager = getClass.getResource("/farmgame/view/SelectVillager.fxml")
-    val loader = new FXMLLoader(selectVillager)
+  def showWarningDialog(message1: String, message2: String): Boolean =
+    val warning = getClass.getResource("/farmgame/view/WarningDialog.fxml")
+    val loader = new FXMLLoader(warning)
     loader.load
     val pane = loader.getRoot[javafx.scene.layout.AnchorPane]()
     val myWindow = new Stage(): 
       initOwner(stage)
       initModality(ApplicationModal)
-      title = "Select Villager"
+      title = "Warning"
       scene = new Scene():
         root = pane
-    val ctrl = loader.getController[SelectVillagerController]()
+    val ctrl = loader.getController[WarningDialogController]()
     ctrl.stage = Option(myWindow)
+    ctrl.setMessage(message1, message2)
     myWindow.showAndWait()
     ctrl.okClicked
+
+
 
