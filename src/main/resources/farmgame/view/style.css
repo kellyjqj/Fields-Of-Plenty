@@ -43,7 +43,7 @@
     -fx-background-color: yellow;
 }
 .nutrition-high .bar {
-    -fx-background-color: green;
+    -fx-background-color: #4bf24b;
 }
 .button {
     -fx-background-color: transparent;
@@ -196,11 +196,21 @@
 #gameOverLabel {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-text-fill: red;
 }
-#gameOverDescLabel, #finalDaysSurvivedLabel {
+#gameOverDescLabel {
     -fx-font-size: 15px;
-    -fx-text-fill: red;
     -fx-padding: 10px;
     -fx-background-size: 100% 100%;
 }
+
+
+/*#finalDaysSurvivedLabel*/
+
+.game-over-win {
+    -fx-text-fill: #4bf24b;
+}
+
+.game-over-lose {
+    -fx-text-fill: red;
+}
+

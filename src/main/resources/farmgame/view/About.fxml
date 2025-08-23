@@ -9,23 +9,24 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="aboutPane" prefHeight="400.0" prefWidth="400.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmgame.view.AboutController">
+<AnchorPane fx:id="aboutPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="farmgame.view.AboutController">
    <children>
       <Button layoutX="325.0" layoutY="348.0" onAction="#handleClose" text="_Close" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <GridPane prefHeight="338.0" prefWidth="400.0" vgap="5.0">
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="398.0" prefWidth="498.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="199.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="201.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" percentWidth="50.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" percentWidth="50.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="103.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="235.0" minHeight="10.0" prefHeight="235.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="60.0" valignment="CENTER" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="15.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <GridPane prefHeight="70.0" prefWidth="400.0" styleClass="gridPane" GridPane.columnSpan="2">
+            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="gridPane" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.0" minWidth="10.0" prefWidth="200.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="202.0" minWidth="10.0" prefWidth="200.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" percentWidth="50.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" percentWidth="50.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -47,10 +48,10 @@
                   <Insets left="5.0" right="5.0" />
                </padding>
             </GridPane>
-            <TextArea editable="false" prefHeight="229.0" prefWidth="400.0" text="Fields of Plenty is a farming simulation game that aligns with Sustainable Development Goal 2: Zero Hunger.&#10;Your mission is to keep the villagers in the Field of Plenty healthy and alive by planting crops, managing resources, and making strategic decisions about food production.&#10;&#10;Through gameplay, you’ll learn about the challenges of sustainable agriculture, nutrition, and the importance of making thoughtful choices in the face of scarcity.&#10;&#10;By playing this game, you'll gain a better understanding of:&#10;&#10;- The importance of food security and sustainable farming&#10;&#10;- How crop diversity affects community health&#10;&#10;- The delicate balance between survival and sustainability&#10;&#10;Whether you're harvesting rice, planting potatoes, or trying to keep your villagers from starving, Fields of Plenty encourages you to think critically about real-world issues related to hunger and agriculture.&#10;&#10;" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="1">
-               <padding>
+            <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Fields of Plenty is a farming simulation game that aligns with Sustainable Development Goal 2: Zero Hunger.&#10;Your mission is to keep the villagers in the Field of Plenty healthy and alive by planting crops, managing resources, and making strategic decisions about food production.&#10;&#10;Through gameplay, you’ll learn about the challenges of sustainable agriculture, nutrition, and the importance of making thoughtful choices in the face of scarcity.&#10;&#10;By playing this game, you'll gain a better understanding of:&#10;&#10;- The importance of food security and sustainable farming&#10;&#10;- How crop diversity affects community health&#10;&#10;- The delicate balance between survival and sustainability&#10;&#10;Whether you're harvesting rice, planting potatoes, or trying to keep your villagers from starving, Fields of Plenty encourages you to think critically about real-world issues related to hunger and agriculture.&#10;&#10;" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
+               </GridPane.margin>
             </TextArea>
          </children>
       </GridPane>

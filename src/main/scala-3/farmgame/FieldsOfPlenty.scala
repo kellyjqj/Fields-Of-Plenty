@@ -61,7 +61,7 @@ object FieldsOfPlenty extends JFXApp3:
     val myWindow = new Stage():
       initOwner(stage)
       initModality(ApplicationModal)
-      title = if win then "You Won!" else "Game Over"
+      title = if win then "Congratulations!" else "Game Over"
       scene = new Scene():
         root = pane
     val ctrl = loader.getController[GameOverController]()

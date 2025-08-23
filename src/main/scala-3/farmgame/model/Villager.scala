@@ -30,7 +30,6 @@ class Villager(val name: String):
     if daysSinceLastMeal >= 1 then
       nutritionLevel -= math.ceil(daysSinceLastMeal * 1.5)
       if nutritionLevel < 0 then nutritionLevel = 0
-
     // or more days without food, villager's nutrition level decreases
 //    if daysSinceLastMeal >= 1 then
 //      nutritionLevel -= 2

@@ -13,7 +13,7 @@ class FarmPlot():
 
   def grow(): Unit =
     crop.foreach(_.grow())
-    
+
   def harvest(): Option[Crop] =
     crop match
       case Some(c) if c.isReady =>

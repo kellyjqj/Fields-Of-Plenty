@@ -20,12 +20,15 @@ class GameOverController:
   @FXML
   private var finalDaysSurvivedLabel: javafx.scene.control.Label = _
   @FXML
-  private var villager1GraveImage: javafx.scene.image.ImageView = _
+  private var villager1EndImage: javafx.scene.image.ImageView = _
   @FXML
-  private var villager2GraveImage: javafx.scene.image.ImageView = _
+  private var villager2EndImage: javafx.scene.image.ImageView = _
 
   private val v1grave = new javafx.scene.image.Image(getClass.getResourceAsStream("/farmgame/view/images/v1grave.png"))
   private val v2grave = new javafx.scene.image.Image(getClass.getResourceAsStream("/farmgame/view/images/v2grave.png"))
+  private val v1happy = new javafx.scene.image.Image(getClass.getResourceAsStream("/farmgame/view/images/v1happy.png"))
+  private val v2happy = new javafx.scene.image.Image(getClass.getResourceAsStream("/farmgame/view/images/v2happy.png"))
+
 
   def setScore(days: Int, win: Boolean): Unit =
     println(s"DEBUG: setScore called with $days")
@@ -33,17 +36,35 @@ class GameOverController:
 
     if gameOverLabel != null then
       gameOverLabel.setText(
-        if win then "Congratulations!!!"
-        else "Game Over!!!"
+        if win then {
+//          gameOverLabel.getStyleClass.remove()
+          gameOverLabel.getStyleClass.add("game-over-win")
+          finalDaysSurvivedLabel.getStyleClass.add("game-over-win")
+          "Congratulations!!!"
+        } else {
+          gameOverLabel.getStyleClass.add("game-over-lose")
+          finalDaysSurvivedLabel.getStyleClass.add("game-over-lose")
+          "Game Over!!!"
+        }
       )
     if gameOverDescLabel != null then
       gameOverDescLabel.setText(
-        if win then "All villagers are happy and healthy :D"
-        else "All villagers have died :("
+        if win then {
+          gameOverDescLabel.getStyleClass.add("game-over-win")
+          finalDaysSurvivedLabel.getStyleClass.add("game-over-win")
+          "All villagers are happy and healthy :D"
+        } else {
+          gameOverDescLabel.getStyleClass.add("game-over-lose")
+          finalDaysSurvivedLabel.getStyleClass.add("game-over-lose")
+          "All villagers have died :("
+        }
       )
     if !win then
-      villager1GraveImage.setImage(v1grave)
-      villager2GraveImage.setImage(v2grave)
+      villager1EndImage.setImage(v1grave)
+      villager2EndImage.setImage(v2grave)
+    else
+      villager1EndImage.setImage(v1happy)
+      villager2EndImage.setImage(v2happy)
 
 
 
