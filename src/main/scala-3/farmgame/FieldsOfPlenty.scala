@@ -1,5 +1,5 @@
 package farmgame
-import farmgame.model.{Farm, Villager}
+import farmgame.model.{Farm, Villager, VillagerAssets}
 import farmgame.view.*
 import javafx.fxml.FXMLLoader
 import scalafx.application.JFXApp3
@@ -51,7 +51,8 @@ object FieldsOfPlenty extends JFXApp3:
     }
 
   private def createDefaultFarm(): Farm =
-    Farm(3, 3, List(Villager("Alice"), Villager("Bob")))
+    Farm(3, 3, List(Villager("Alice", VillagerAssets.v1Sprites),
+                    Villager("Bob", VillagerAssets.v2Sprites)))
 
   def showGameOver(days: Int, win: Boolean): Boolean =
     val gameOver = getClass.getResource("/farmgame/view/GameOver.fxml")

@@ -3,6 +3,7 @@ package farmgame.view
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import farmgame.FieldsOfPlenty
+import farmgame.model.VillagerAssets
 
 @FXML
 class RootLayoutController():
@@ -37,7 +38,8 @@ class RootLayoutController():
   private def restartFarm(rows: Int, cols: Int): Unit =
     println(s"Restarting farm with size ${rows}x${cols}")
     val newFarm = farmgame.model.Farm(rows, cols, List(
-      farmgame.model.Villager("Alice"), farmgame.model.Villager("Bob")
+      farmgame.model.Villager("Alice", VillagerAssets.v1Sprites),
+      farmgame.model.Villager("Bob", VillagerAssets.v2Sprites),
     ))
     farmgame.FieldsOfPlenty.showFarm(newFarm)
 

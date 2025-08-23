@@ -28,7 +28,6 @@ class FarmPlot():
       else s"${c.name} ${c.progress}/${c.growthTime}"
     ).getOrElse("Empty")
 
-
   def isReady: Boolean = crop.exists(_.isReady)
 
   def progress: Int = crop.map(_.progress).getOrElse(0)
