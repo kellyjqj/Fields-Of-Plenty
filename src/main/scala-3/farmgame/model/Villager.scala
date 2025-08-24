@@ -11,6 +11,7 @@ class Villager(val name: String, val sprites: VillagerSprites):
 
   def eat(crop: Crop): Unit =
     nutritionLevel += crop.nutritionValue
+    //cap nutrition level at 100
     if nutritionLevel > 100 then nutritionLevel = 100
     
     //reset starvation counter
@@ -28,17 +29,15 @@ class Villager(val name: String, val sprites: VillagerSprites):
   def nextDay(): Unit =
     daysSinceLastMeal += 1
 
-    //use daysSinceLastMeal *1.5 as amount to decrease
+    //use daysSinceLastMeal *1.5 as amount to decrease nutrition level
     if daysSinceLastMeal >= 1 then
       nutritionLevel -= math.ceil(daysSinceLastMeal * 1.5)
       if nutritionLevel < 0 then nutritionLevel = 0
-    // or more days without food, villager's nutrition level decreases
-//    if daysSinceLastMeal >= 1 then
-//      nutritionLevel -= 2
-//      if nutritionLevel < 0 then nutritionLevel = 0
 
+  //check if villager is alive
   def isAlive: Boolean = nutritionLevel > 0
 
+  //get current mood of villager
   def currentMood: VillagerMood =
     if !isAlive then DeadMood
     else if nutritionLevel < 30 then SadMood
@@ -46,39 +45,3 @@ class Villager(val name: String, val sprites: VillagerSprites):
     else HappyMood
     
     
-
-case class VillagerSprites(normal: Image,
-                            happy: Image,
-                            sad: Image,
-                            eatingFrames: Seq[Image],
-                            dead: Image,
-                          )
-
-object VillagerAssets:
-  val v1Sprites: VillagerSprites = VillagerSprites(
-    new Image(getClass.getResourceAsStream("/farmgame/view/images/v1.png")),
-    new Image(getClass.getResourceAsStream("/farmgame/view/images/v1happy.png")),
-    new Image(getClass.getResourceAsStream("/farmgame/view/images/v1sad.png")),
-    Seq(
-      new Image(getClass.getResourceAsStream("/farmgame/view/images/v1.png")),
-      new Image(getClass.getResourceAsStream("/farmgame/view/images/v1eat.png")),
-      new Image(getClass.getResourceAsStream("/farmgame/view/images/v1.png")),
-      new Image(getClass.getResourceAsStream("/farmgame/view/images/v1eat.png"))
-    ),
-    new Image(getClass.getResourceAsStream("/farmgame/view/images/v1dead.png"))
-  )
-
-  val v2Sprites: VillagerSprites = VillagerSprites(
-    new Image(getClass.getResourceAsStream("/farmgame/view/images/v2.png")),
-    new Image(getClass.getResourceAsStream("/farmgame/view/images/v2happy.png")),
-    new Image(getClass.getResourceAsStream("/farmgame/view/images/v2sad.png")),
-    Seq(
-      new Image(getClass.getResourceAsStream("/farmgame/view/images/v2.png")),
-      new Image(getClass.getResourceAsStream("/farmgame/view/images/v2eat.png")),
-      new Image(getClass.getResourceAsStream("/farmgame/view/images/v2.png")),
-      new Image(getClass.getResourceAsStream("/farmgame/view/images/v2eat.png"))
-    ),
-    new Image(getClass.getResourceAsStream("/farmgame/view/images/v2dead.png"))
-  )
-  val grave1: Image = new Image(getClass.getResourceAsStream("/farmgame/view/images/v1grave.png"))
-  val grave2: Image = new Image(getClass.getResourceAsStream("/farmgame/view/images/v2grave.png"))

@@ -2,6 +2,7 @@ package farmgame.model
 
 import javafx.scene.image.Image
 
+//villager moods with different sprites
 trait VillagerMood {
   def sprite(v: VillagerSprites): Image
   def frames(v: VillagerSprites): Seq[Image] = Nil

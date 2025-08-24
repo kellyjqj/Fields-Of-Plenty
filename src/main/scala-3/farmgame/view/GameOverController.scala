@@ -24,15 +24,15 @@ class GameOverController:
   private var villager1EndImage: javafx.scene.image.ImageView = _
   @FXML
   private var villager2EndImage: javafx.scene.image.ImageView = _
-
+  
   def setScore(days: Int, win: Boolean): Unit =
     println(s"DEBUG: setScore called with $days")
     finalDaysSurvivedLabel.setText(s"Days Survived: $days")
 
+    //set game over text and image
     if gameOverLabel != null then
       gameOverLabel.setText(
         if win then {
-//          gameOverLabel.getStyleClass.remove()
           gameOverLabel.getStyleClass.add("game-over-win")
           finalDaysSurvivedLabel.getStyleClass.add("game-over-win")
           "Congratulations!!!"

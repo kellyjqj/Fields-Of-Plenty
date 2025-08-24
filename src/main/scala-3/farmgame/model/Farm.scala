@@ -19,6 +19,7 @@ class Farm(rows: Int, cols: Int, villagers: List[Villager]):
     if people.exists(_.isAlive) then
       daysSurvived += 1
 
+  //plant crop at given location
   def plantAt(row: Int, col: Int, crop: Crop): Boolean =
     plots(row)(col).plant(crop)
 
@@ -26,17 +27,9 @@ class Farm(rows: Int, cols: Int, villagers: List[Villager]):
   def harvestAt(row: Int, col: Int): Option[Crop] =
     plots(row)(col).harvest()
 
-//  def feedVillager(villagerIndex: Int, crop: Crop): Unit =
-//    if villagerIndex >= 0 && villagerIndex < people.size then
-//      people(villagerIndex).eat(crop)
-
+  //feed crop to villager
   def feedVillager(v: Villager, crop: Crop): Boolean =
     if v.isAlive then
       v.eat(crop)
       true
     else false
-
-//dont need
-//  //check if all villagers are alive
-//  def allAlive: Boolean =
-//    people.forall(_.isAlive)

@@ -11,6 +11,11 @@ import scalafx.stage.Stage
 
 import java.net.URL
 
+//references: 
+//https://docs.oracle.com/javase/8/javafx/events-tutorial/drag-drop.htm
+//https://docs.oracle.com/javase/8/javafx/api/javafx/animation/Timeline.html#Timeline-javafx.animation.KeyFrame...-
+
+
 object FieldsOfPlenty extends JFXApp3:
   var rootPane: Option[javafx.scene.layout.BorderPane] = None
   override def start(): Unit = 
@@ -27,15 +32,18 @@ object FieldsOfPlenty extends JFXApp3:
 
     showMainMenu()//main menu
 
+  //show main menu page
   def showMainMenu(): Unit = 
     val mainMenu: URL = getClass.getResource("/farmgame/view/MainMenu.fxml")
     val loader = new FXMLLoader(mainMenu)
     val pane = loader.load[javafx.scene.layout.AnchorPane]()
     rootPane.foreach(_.setCenter(pane))
 
+  //show farm page(default)
   def showFarm(): Unit =
     showFarm(createDefaultFarm())
 
+  //show farm page with given farm
   def showFarm(farm: Farm): Unit =
     try {
       val farmResource: URL = getClass.getResource("/farmgame/view/Farm.fxml")
@@ -50,10 +58,12 @@ object FieldsOfPlenty extends JFXApp3:
         e.printStackTrace()
     }
 
+  //set default farm
   private def createDefaultFarm(): Farm =
     Farm(3, 3, List(Villager("Alice", VillagerAssets.v1Sprites),
                     Villager("Bob", VillagerAssets.v2Sprites)))
 
+  //game over page
   def showGameOver(days: Int, win: Boolean): Boolean =
     val gameOver = getClass.getResource("/farmgame/view/GameOver.fxml")
     val loader = new FXMLLoader(gameOver)
@@ -122,24 +132,7 @@ object FieldsOfPlenty extends JFXApp3:
     myWindow.showAndWait()
     ctrl.okClicked
 
-//show select crop
-  def showSelectCrop(): Boolean =
-    val selectCrop = getClass.getResource("/farmgame/view/SelectCrop.fxml")
-    val loader = new FXMLLoader(selectCrop)
-    loader.load
-    val pane = loader.getRoot[javafx.scene.layout.AnchorPane]()
-    val myWindow = new Stage(): 
-      initOwner(stage)
-      initModality(ApplicationModal)
-      title = "Select Crop"
-      scene = new Scene():
-        root = pane
-    val ctrl = loader.getController[SelectCropController]()
-    ctrl.stage = Option(myWindow)
-    myWindow.showAndWait()
-    ctrl.okClicked
-    
-///show select villager
+///show select villager/select crop
   def showWarningDialog(message1: String, message2: String): Boolean =
     val warning = getClass.getResource("/farmgame/view/WarningDialog.fxml")
     val loader = new FXMLLoader(warning)

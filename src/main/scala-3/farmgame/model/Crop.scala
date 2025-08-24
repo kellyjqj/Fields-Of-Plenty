@@ -1,14 +1,19 @@
 package farmgame.model
 
-abstract class Crop(val name: String, val growthTime: Int, val category: NutritionCategory, val nutritionValue: Int):
+abstract class Crop(val name: String,
+                    val growthTime: Int,
+                    val category: NutritionCategory,
+                    val nutritionValue: Int):
   var progress: Int = 0
 
+  //grow crop each day by 1
   def grow(): Unit =
     if progress < growthTime then
       progress += 1
 
+  //check if crop is ready to harvest
   def isReady: Boolean = progress >= growthTime
-
+  
   def harvest(): Option[Crop] =
     if isReady then {
       progress = 0

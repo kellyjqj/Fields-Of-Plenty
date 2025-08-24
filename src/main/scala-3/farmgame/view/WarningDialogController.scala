@@ -16,9 +16,7 @@ class WarningDialogController():
   @FXML
   private var warningLabel2: javafx.scene.control.Label = _
 
-  def setDialogStage(stage: Stage): Unit =
-    this.stage = Some(stage)
-
+  //set message for warning dialog page
   def setMessage(message1: String, message2: String): Unit = {
     warningLabel1.setText(message1)
     warningLabel2.setText(message2)
